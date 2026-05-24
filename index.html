@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e7490">
+<title>Rehab Prescription Pad</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A9%BA%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --accent:#0e7490; --accent-d:#0b5563; --accent-l:#e0f2f5;
+    --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f1f5f9;
+    --card:#ffffff; --ok:#15803d; --danger:#dc2626;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); -webkit-text-size-adjust:100%;
+  }
+  button{font-family:inherit;cursor:pointer}
+  input,textarea,select{font-family:inherit}
+
+  /* ---------- App shell ---------- */
+  .app{display:flex;flex-direction:column;height:100vh;height:100dvh}
+  .topbar{
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top));
+    background:#fff;border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex;align-items:center;gap:9px;margin-right:auto}
+  .brand .logo{
+    width:34px;height:34px;border-radius:9px;background:var(--accent);
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:16px;
+  }
+  .brand .t1{font-weight:700;font-size:15px;line-height:1.1}
+  .brand .t2{font-size:11px;color:var(--muted)}
+  .tbtn{
+    border:1px solid var(--line);background:#fff;color:var(--ink);
+    padding:8px 12px;border-radius:9px;font-size:13px;font-weight:600;
+    display:inline-flex;align-items:center;gap:6px;white-space:nowrap;
+  }
+  .tbtn:hover{background:#f8fafc}
+  .tbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .tbtn.primary:hover{background:var(--accent-d)}
+  .tbtn:disabled{opacity:.55;cursor:default}
+
+  /* ---------- Mobile tabs ---------- */
+  .tabs{display:flex;background:#fff;border-bottom:1px solid var(--line)}
+  .tab{
+    flex:1;padding:12px;background:none;border:none;font-size:14px;font-weight:600;
+    color:var(--muted);border-bottom:2px solid transparent;
+  }
+  .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+  /* ---------- Layout ---------- */
+  .main{flex:1;overflow:hidden;display:flex;min-height:0}
+  .pane{display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;height:100%}
+  .pane.active{display:block}
+  .form-pane{flex:1;padding:14px}
+  .preview-pane{
+    width:46%;max-width:560px;background:#e9eef3;border-left:1px solid var(--line);
+    padding:18px;
+  }
+
+  /* ---------- Cards ---------- */
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:13px;
+    margin:0 auto 12px;max-width:760px;overflow:hidden;
+  }
+  .card-h{
+    display:flex;align-items:center;gap:9px;padding:13px 15px;
+    background:#fff;user-select:none;
+  }
+  .card.collapsible .card-h{cursor:pointer}
+  .card-title{font-weight:700;font-size:14px;flex:1}
+  .badge{
+    background:var(--accent-l);color:var(--accent-d);font-size:11px;font-weight:700;
+    padding:2px 8px;border-radius:20px;min-width:22px;text-align:center;
+  }
+  .badge.zero{background:#f1f5f9;color:#94a3b8}
+  .chev{color:var(--muted);font-size:13px;transition:transform .15s}
+  .card.collapsed .chev{transform:rotate(-90deg)}
+  .card.collapsed .card-b{display:none}
+  .card-b{padding:4px 15px 15px;border-top:1px solid var(--line)}
+
+  .group-label{
+    max-width:760px;margin:18px auto 8px;padding:0 4px;
+    font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--accent-d);
+    text-transform:uppercase;
+  }
+
+  /* ---------- Fields ---------- */
+  .fld{margin-top:12px}
+  .fld label{display:block;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  input[type=text],input[type=date],input[type=number],textarea,select{
+    width:100%;border:1px solid var(--line);border-radius:9px;
+    padding:10px 11px;font-size:16px;color:var(--ink);background:#fff;
+  }
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--accent-l);border-color:var(--accent)}
+  textarea{resize:vertical;min-height:64px;line-height:1.45}
+
+  /* ---------- Checkable items ---------- */
+  .items{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+  .item-wrap{padding:3px 0}
+  .item{
+    display:flex;align-items:flex-start;gap:10px;padding:8px 8px;
+    border-radius:8px;cursor:pointer;
+  }
+  .item:hover{background:#f8fafc}
+  .item input[type=checkbox]{
+    width:20px;height:20px;margin-top:1px;accent-color:var(--accent);flex:none;cursor:pointer;
+  }
+  .item span.lbl{font-size:14px;line-height:1.35;flex:1}
+  .item .x{
+    border:none;background:none;color:#cbd5e1;font-size:17px;line-height:1;
+    padding:0 4px;flex:none;
+  }
+  .item .x:hover{color:var(--danger)}
+  .detail{display:none;margin:2px 0 4px 38px}
+  .item-wrap.on .detail{display:block}
+  .detail input{font-size:14px;padding:7px 10px;background:#fbfdfe}
+
+  .add-btn{
+    margin-top:9px;border:1px dashed var(--line);background:#fbfdfe;color:var(--accent-d);
+    padding:9px;border-radius:9px;font-size:13px;font-weight:600;width:100%;
+  }
+  .add-btn:hover{border-color:var(--accent);background:var(--accent-l)}
+
+  .hint{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+
+  /* ---------- Preview ---------- */
+  .preview-wrap{overflow:hidden}
+  .rx-page{
+    width:794px;min-height:1123px;background:#fff;
+    box-shadow:0 6px 26px rgba(15,23,42,.16);
+    transform-origin:top center;
+  }
+
+  /* ---------- The printable / PDF page ---------- */
+  .rx-page{
+    color:#15202b;padding:46px 48px 40px;font-size:12px;line-height:1.5;
+  }
+  .rx-docname{
+    font-family:Georgia,"Times New Roman",serif;font-weight:700;
+    font-size:27px;text-align:center;letter-spacing:.3px;color:#0b3a44;
+  }
+  .rx-spec{text-align:center;font-size:11px;font-weight:700;letter-spacing:.13em;
+    text-transform:uppercase;color:#0e7490;margin-top:2px}
+  .rx-cred{text-align:center;font-size:10px;color:#475569;margin-top:1px}
+  .rx-hr{border:none;border-top:1px solid #cbd5e1;margin:9px 0}
+  .rx-hr.thick{border-top:2.5px solid #0e7490;margin:7px 0 0}
+  .rx-clinics{display:grid;grid-template-columns:1fr 1fr;gap:1px 26px;margin:2px 0}
+  .rx-clinic{font-size:9.5px;line-height:1.4}
+  .rx-clinic b{color:#15202b}
+  .rx-clinic span{color:#64748b}
+  .rx-contact{text-align:center;font-size:9.5px;color:#475569;margin-top:4px}
+
+  .rx-patient{
+    display:grid;grid-template-columns:1fr 1fr;gap:6px 24px;
+    border:1px solid #cbd5e1;border-radius:8px;padding:11px 14px;margin-top:14px;
+  }
+  .rx-pf{display:flex;gap:7px;font-size:11.5px;align-items:baseline}
+  .rx-pf .k{font-weight:700;color:#0e7490;white-space:nowrap}
+  .rx-pf .v{flex:1;border-bottom:1px solid #cbd5e1;min-height:15px;font-weight:600}
+
+  .rx-title{
+    text-align:center;font-weight:800;font-size:16px;letter-spacing:.06em;
+    text-transform:uppercase;color:#0b3a44;margin:16px 0 4px;
+    padding-bottom:6px;border-bottom:2px solid #0e7490;
+  }
+
+  .rx-field{margin-top:11px;font-size:12px}
+  .rx-field .k{font-weight:800;color:#0e7490;text-transform:uppercase;
+    font-size:10.5px;letter-spacing:.04em}
+  .rx-field .v{margin-top:2px;white-space:pre-wrap}
+
+  .rx-sech{
+    font-weight:800;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+    color:#0b3a44;margin:14px 0 5px;padding-bottom:3px;border-bottom:1.5px solid #bae0e7;
+  }
+  .rx-exgroup{margin-top:14px}
+  .rx-exgroup>.rx-sech{margin-top:0}
+  .rx-subh{font-weight:700;font-size:10.5px;color:#0e7490;margin:9px 0 3px}
+  .rx-block{margin-top:2px}
+  .rx-chips{display:flex;flex-wrap:wrap;gap:4px 7px;margin:3px 0}
+  .rx-chip{font-size:11px;background:#f0f9fb;border:1px solid #cce9ee;
+    border-radius:5px;padding:2px 8px}
+  .rx-ul{list-style:none;margin:3px 0}
+  .rx-ul li{font-size:11.5px;margin:2px 0;padding-left:2px}
+  .rx-note{font-size:11px;color:#334155;margin-top:3px;white-space:pre-wrap;font-style:italic}
+
+  .rx-foot{margin-top:38px;display:flex;justify-content:flex-end}
+  .rx-sign{text-align:center;min-width:280px}
+  .rx-sign .line{border-top:1px solid #15202b;margin-bottom:3px}
+  .rx-sign .nm{font-weight:800;font-size:12.5px}
+  .rx-sign .sm{font-size:10.5px;color:#334155;margin-top:1px}
+  .rx-empty{color:#94a3b8;font-style:italic}
+
+  /* ---------- Modal ---------- */
+  .overlay{
+    position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:50;
+    display:none;align-items:flex-start;justify-content:center;padding:24px 14px;
+    overflow-y:auto;
+  }
+  .overlay.open{display:flex}
+  .modal{
+    background:#fff;border-radius:14px;width:100%;max-width:540px;
+    margin:auto;overflow:hidden;
+  }
+  .modal-h{display:flex;align-items:center;padding:15px 17px;border-bottom:1px solid var(--line)}
+  .modal-h h3{font-size:15px;flex:1}
+  .modal-h .close{border:none;background:none;font-size:22px;color:var(--muted);line-height:1}
+  .modal-b{padding:16px 17px;max-height:70vh;overflow-y:auto}
+  .modal-f{padding:13px 17px;border-top:1px solid var(--line);display:flex;gap:9px;justify-content:flex-end}
+
+  .saved-item{
+    border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:9px;
+  }
+  .saved-item .nm{font-weight:700;font-size:14px}
+  .saved-item .meta{font-size:12px;color:var(--muted);margin-top:2px}
+  .saved-item .acts{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+  .mini{
+    border:1px solid var(--line);background:#fff;border-radius:7px;
+    padding:6px 11px;font-size:12px;font-weight:600;
+  }
+  .mini:hover{background:#f8fafc}
+  .mini.accent{color:var(--accent);border-color:#bae0e7}
+  .mini.danger{color:var(--danger);border-color:#fbcaca}
+
+  .set-row{margin-bottom:13px}
+  .set-row label{display:block;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px}
+  .set-row .sub{font-size:11px;color:var(--muted);font-weight:400;margin-bottom:4px}
+  .chip-del{
+    display:inline-flex;align-items:center;gap:6px;background:#f1f5f9;
+    border-radius:7px;padding:4px 6px 4px 10px;font-size:12px;margin:3px 4px 0 0;
+  }
+  .chip-del button{border:none;background:none;color:var(--danger);font-size:15px;line-height:1}
+
+  /* ---------- Toast ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+    background:#0f172a;color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;
+    font-weight:600;z-index:80;opacity:0;transition:.25s;pointer-events:none;
+    box-shadow:0 8px 24px rgba(0,0,0,.25);
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* ---------- Desktop ---------- */
+  @media(min-width:980px){
+    .tabs{display:none}
+    .pane{display:block !important}
+    .main{display:flex}
+  }
+  /* off-screen render target for PDF / print */
+  #pdfPage{position:absolute;left:-10000px;top:0;pointer-events:none}
+
+  /* ---------- Print ---------- */
+  @media print{
+    @page{size:A4;margin:0}
+    body{background:#fff}
+    .app,.overlay,.toast{display:none !important}
+    #pdfPage{position:static;left:0;pointer-events:auto}
+    .rx-page{box-shadow:none;width:794px;min-height:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">Rx</div>
+      <div>
+        <div class="t1">Rehab Prescription Pad</div>
+        <div class="t2">Dr. Villanueva &middot; saved on this device</div>
+      </div>
+    </div>
+    <button class="tbtn" id="btnNew">New</button>
+    <button class="tbtn" id="btnSaved">Saved</button>
+    <button class="tbtn" id="btnSettings">Settings</button>
+    <button class="tbtn" id="btnPrint">Print</button>
+    <button class="tbtn primary" id="btnPdf">Download PDF</button>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" id="tabForm">Edit form</button>
+    <button class="tab" id="tabPreview">Preview</button>
+  </div>
+
+  <div class="main">
+    <div class="pane form-pane active" id="formPane">
+      <form id="form" autocomplete="off" onsubmit="return false"></form>
+    </div>
+    <div class="pane preview-pane" id="previewPane">
+      <div class="preview-wrap" id="previewWrap">
+        <div class="rx-page" id="previewPage"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="rx-page" id="pdfPage"></div>
+
+<!-- Modal -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modal-h">
+      <h3 id="modalTitle"></h3>
+      <button class="close" id="modalClose">&times;</button>
+    </div>
+    <div class="modal-b" id="modalBody"></div>
+    <div class="modal-f" id="modalFoot"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<input type="file" id="importFile" accept="application/json" style="display:none">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+"use strict";
+/* =========================================================
+   Rehab Prescription Pad  -  single-file web app
+   Data is stored only in this browser (localStorage).
+   ========================================================= */
+
+/* ---------- Defaults pulled from Dr. Villanueva's form ---------- */
+function defaultSettings(){
+  return {
+    headerName:"KIM RENDELL VILLANUEVA, MD, DPARM",
+    specialty:"Physical & Rehabilitation Medicine",
+    credentials:[
+      "Diplomate, Philippine Academy of Rehabilitation Medicine",
+      "Member, Quezon City Medical Society",
+      "Member, Philippine Medical Association"
+    ],
+    clinics:[
+      {name:"Accelerated Wellness & Pain Clinic", location:"E. Rodriguez, Quezon City"},
+      {name:"AFP Medical Center", location:"Quezon City"},
+      {name:"NCDH Physical Therapy & Rehabilitation", location:"North Caloocan"},
+      {name:"Healthway Qualimed Hospital", location:"San Jose Del Monte, Bulacan"},
+      {name:"Our Lady of Fatima University", location:"Valenzuela City"}
+    ],
+    teleconsult:"seriousmd.com/doc/kimvillanueva",
+    contact:"09762057232",
+    docTitle:"Physical Therapy Prescription",
+    signatureName:"KIM RENDELL VILLANUEVA, MD",
+    prc:"0142732",
+    ptr:"",
+    customItems:{}
+  };
+}
+
+/* ---------- Base schema (the checkbox sections) ---------- */
+const BASE_SCHEMA = {
+  goals:{ title:"Rehab Goals", note:true, noteLabel:"Other goals", items:[
+    "To improve strength","To improve gait / ambulation","To decrease pain",
+    "To decrease spasticity","To improve ADL participation"]},
+  modalities:{ title:"Modalities", note:true, detailAll:true, items:[
+    "ES","FES","TENS","HMP","US","ESWT","TECAR","LASER"]},
+  rom:{ title:"Range of Motion", group:"ex", note:true, detailAll:true, items:[
+    "AROME","AAROME","PROME","UE","LE"]},
+  strengthening:{ title:"Strengthening", group:"ex", note:true, detailAll:true, items:[
+    "UE","LE"]},
+  gps:{ title:"GPS / Stretching", group:"ex", note:true, detailAll:true, items:[
+    "UE","LE"]},
+  balance:{ title:"Balance / Tolerance", group:"ex", items:[
+    "Sitting","Standing"]},
+  transitional:{ title:"Transitional Mobility", group:"ex", items:[
+    "Supine ↔ Sidelying","Sidelying ↔ Long sitting",
+    "Long ↔ Short sitting","Sit ↔ Stand"]},
+  transfer:{ title:"Transfer Skills", group:"ex", items:[
+    "Bed ↔ Wheelchair"]},
+  otherEx:{ title:"Other Exercises & Techniques", group:"ex", note:true,
+    detailItems:["PNF","Parallel bar exercises","Stabilization exercises","Gait retraining"],
+    items:[
+      "McKenzie exercises","William's exercises","Finger ladder / Shoulder wheel",
+      "Coordination exercises","Balance / Proprioception","PNF","NDT / Bobath",
+      "Rood's technique","Parallel bar exercises","Ergometer","Treadmill exercises",
+      "Stabilization exercises","Mat exercises","Play therapy","Gait retraining",
+      "Calliet neck exercises","Trunk / Core exercises","Prehension skills (gross / fine)",
+      "Scoliosis-specific exercises (Klapp's / Schroth)","Proper body mechanics",
+      "Joint conservation techniques","Postural reeducation","Home exercise program"]}
+};
+const SECTION_ORDER = ["goals","modalities","rom","strengthening","gps",
+  "balance","transitional","transfer","otherEx"];
+const EX_SECTIONS = ["rom","strengthening","gps","balance","transitional","transfer","otherEx"];
+
+/* ---------- Storage keys ---------- */
+const K_SET="rxpad_v1_settings", K_RX="rxpad_v1_prescriptions", K_DRAFT="rxpad_v1_draft";
+
+/* ---------- Helpers ---------- */
+const $ = s=>document.querySelector(s);
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>(
+  {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function nl2br(s){return String(s).replace(/\n/g,"<br>");}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7);}
+function todayISO(){const d=new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000)
+  .toISOString().slice(0,10);}
+function fmtDate(iso){
+  if(!iso) return "";
+  const d=new Date(iso+"T00:00:00");
+  if(isNaN(d)) return iso;
+  return d.toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+}
+function setPath(o,p,v){const k=p.split(".");let c=o;
+  for(let i=0;i<k.length-1;i++){c=c[k[i]=k[i]]=c[k[i]]||{};}c[k[k.length-1]]=v;}
+function getPath(o,p){return p.split(".").reduce((c,k)=>c&&c[k],o);}
+function load(key,fb){try{const v=localStorage.getItem(key);return v?JSON.parse(v):fb;}
+  catch(e){return fb;}}
+function save(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){
+  toast("Could not save – storage may be full");}}
+
+/* ---------- State ---------- */
+let SETTINGS = Object.assign(defaultSettings(), load(K_SET,{}));
+if(!SETTINGS.customItems) SETTINGS.customItems={};
+let SAVED = load(K_RX,[]);
+let RX = load(K_DRAFT,null) || blankRx();
+
+function blankRx(){
+  return { id:null, createdAt:Date.now(), updatedAt:Date.now(),
+    patient:{name:"",address:"",date:todayISO(),age:""},
+    diagnosis:"", precautions:"", frequency:"", followUp:"",
+    sections:{} };
+}
+
+/* schema merged with the user's custom items */
+function getSchema(){
+  const s=JSON.parse(JSON.stringify(BASE_SCHEMA));
+  const ci=SETTINGS.customItems||{};
+  Object.keys(ci).forEach(sec=>{
+    if(!s[sec]) return;
+    (ci[sec]||[]).forEach(lbl=>{ if(!s[sec].items.includes(lbl)) s[sec].items.push(lbl); });
+  });
+  return s;
+}
+function isCustom(sec,item){return ((SETTINGS.customItems||{})[sec]||[]).includes(item);}
+function itemHasDetail(sec,item){
+  const sc=BASE_SCHEMA[sec]||{};
+  if(sc.detailAll) return true;
+  if((sc.detailItems||[]).includes(item)) return true;
+  if(isCustom(sec,item)) return true;
+  return false;
+}
+function secData(sec){
+  if(!RX.sections[sec]) RX.sections[sec]={items:{},note:""};
+  if(!RX.sections[sec].items) RX.sections[sec].items={};
+  return RX.sections[sec];
+}
+function itemData(sec,item){
+  const d=secData(sec);
+  if(!d.items[item]) d.items[item]={on:false,detail:""};
+  return d.items[item];
+}
+function sectionCount(sec){
+  const d=RX.sections[sec];
+  if(!d||!d.items) return 0;
+  return Object.values(d.items).filter(x=>x&&x.on).length;
+}
+
+/* =========================================================
+   FORM BUILDING
+   ========================================================= */
+function buildForm(){
+  const f=$("#form");
+  let html="";
+
+  /* Patient card */
+  html+=card("patient","Patient Information",false,`
+    <div class="grid2">
+      <div class="fld"><label>Patient's name</label>
+        <input type="text" data-bind="patient.name" value="${esc(RX.patient.name)}"></div>
+      <div class="fld"><label>Age</label>
+        <input type="text" data-bind="patient.age" value="${esc(RX.patient.age)}"
+          placeholder="e.g. 54 / F"></div>
+    </div>
+    <div class="fld"><label>Address</label>
+      <input type="text" data-bind="patient.address" value="${esc(RX.patient.address)}"></div>
+    <div class="fld"><label>Date</label>
+      <input type="date" data-bind="patient.date" value="${esc(RX.patient.date)}"></div>
+  `,false);
+
+  /* Clinical card */
+  html+=card("clinical","Diagnosis &amp; Plan",false,`
+    <div class="fld"><label>Diagnosis</label>
+      <textarea data-bind="diagnosis" placeholder="Primary diagnosis / impression">${esc(RX.diagnosis)}</textarea></div>
+    <div class="fld"><label>Precautions</label>
+      <textarea data-bind="precautions" placeholder="e.g. weight-bearing limits, BP precautions">${esc(RX.precautions)}</textarea></div>
+    <div class="fld"><label>Frequency / Sessions</label>
+      <input type="text" data-bind="frequency" value="${esc(RX.frequency)}"
+        placeholder="e.g. 3x / week for 4 weeks"></div>
+  `,false);
+
+  /* Goals + Modalities */
+  html+=sectionCard("goals",false);
+  html+=sectionCard("modalities",true);
+
+  /* Exercises group */
+  html+=`<div class="group-label">Exercises</div>`;
+  EX_SECTIONS.forEach(sec=>{ html+=sectionCard(sec,true); });
+
+  /* Follow-up */
+  html+=card("followup","Follow-up",false,`
+    <div class="fld"><label>Follow-up</label>
+      <input type="text" data-bind="followUp" value="${esc(RX.followUp)}"
+        placeholder="e.g. Re-evaluate in 2 weeks"></div>
+    <div class="hint">The signature block, PRC No. and PTR No. are taken from
+      Settings and appear automatically on every prescription.</div>
+  `,false);
+
+  f.innerHTML=html;
+  refreshBadges();
+}
+
+function card(id,title,collapsed,body,withBadge){
+  return `<section class="card collapsible ${collapsed?'collapsed':''}" data-card="${id}">
+    <div class="card-h" data-toggle="${id}">
+      <span class="card-title">${title}</span>
+      ${withBadge?`<span class="badge zero" data-badge="${id}">0</span>`:""}
+      <span class="chev">&#9662;</span>
+    </div>
+    <div class="card-b">${body}</div>
+  </section>`;
+}
+
+function sectionCard(sec,collapsed){
+  const sc=getSchema()[sec];
+  let rows="";
+  sc.items.forEach(item=>{ rows+=itemRow(sec,item); });
+  let body=`<div class="items">${rows}</div>
+    <button type="button" class="add-btn" data-add="${sec}">+ Add item to this list</button>`;
+  if(sc.note){
+    const d=RX.sections[sec]||{};
+    body+=`<div class="fld"><label>${esc(sc.noteLabel||"Other / notes")}</label>
+      <textarea data-sec="${sec}" data-role="note"
+        placeholder="Anything not listed above">${esc(d.note||"")}</textarea></div>`;
+  }
+  return card(sec,sc.title,collapsed,body,true);
+}
+
+function itemRow(sec,item){
+  const d=itemData(sec,item);
+  const on=!!d.on;
+  const hasDetail=itemHasDetail(sec,item);
+  const custom=isCustom(sec,item);
+  let detail="";
+  if(hasDetail){
+    detail=`<div class="detail"><input type="text" data-sec="${sec}" data-role="detail"
+      data-item="${esc(item)}" value="${esc(d.detail||"")}"
+      placeholder="details / parameters (optional)"></div>`;
+  }
+  return `<div class="item-wrap ${on?'on':''}">
+    <label class="item">
+      <input type="checkbox" data-sec="${sec}" data-role="check"
+        data-item="${esc(item)}" ${on?"checked":""}>
+      <span class="lbl">${esc(item)}</span>
+      ${custom?`<button type="button" class="x" data-del-custom="${sec}"
+        data-item="${esc(item)}" title="Remove custom item">&times;</button>`:""}
+    </label>
+    ${detail}
+  </div>`;
+}
+
+/* =========================================================
+   FORM EVENTS
+   ========================================================= */
+$("#form").addEventListener("input",e=>{
+  const t=e.target;
+  if(t.dataset.bind){
+    setPath(RX,t.dataset.bind,t.value);
+  }else if(t.dataset.sec){
+    const sec=t.dataset.sec, role=t.dataset.role;
+    if(role==="check"){
+      const it=itemData(sec,t.dataset.item);
+      it.on=t.checked;
+      const wrap=t.closest(".item-wrap");
+      if(wrap) wrap.classList.toggle("on",t.checked);
+      refreshBadges();
+    }else if(role==="detail"){
+      itemData(sec,t.dataset.item).detail=t.value;
+    }else if(role==="note"){
+      secData(sec).note=t.value;
+    }
+  }
+  RX.updatedAt=Date.now();
+  refreshPreview();
+  scheduleAutosave();
+});
+
+$("#form").addEventListener("click",e=>{
+  const toggle=e.target.closest("[data-toggle]");
+  if(toggle){
+    toggle.closest(".card").classList.toggle("collapsed");
+    return;
+  }
+  const add=e.target.closest("[data-add]");
+  if(add){ addCustomItem(add.dataset.add); return; }
+  const del=e.target.closest("[data-del-custom]");
+  if(del){ e.preventDefault(); removeCustomItem(del.dataset.delCustom,del.dataset.item); }
+});
+
+function refreshBadges(){
+  document.querySelectorAll("[data-badge]").forEach(b=>{
+    const n=sectionCount(b.dataset.badge);
+    b.textContent=n;
+    b.classList.toggle("zero",n===0);
+  });
+}
+
+let autosaveTimer=null;
+function scheduleAutosave(){
+  clearTimeout(autosaveTimer);
+  autosaveTimer=setTimeout(()=>save(K_DRAFT,RX),400);
+}
+
+/* =========================================================
+   CUSTOM ITEMS
+   ========================================================= */
+function addCustomItem(sec){
+  const label=(prompt("Add a new item to “"+getSchema()[sec].title+"”:")||"").trim();
+  if(!label) return;
+  const all=getSchema()[sec].items.map(x=>x.toLowerCase());
+  if(all.includes(label.toLowerCase())){ toast("That item already exists"); return; }
+  if(!SETTINGS.customItems[sec]) SETTINGS.customItems[sec]=[];
+  SETTINGS.customItems[sec].push(label);
+  save(K_SET,SETTINGS);
+  rebuildKeepState();
+  toast("Added “"+label+"”");
+}
+function removeCustomItem(sec,item){
+  if(!confirm("Remove the custom item “"+item+"” from this list?")) return;
+  SETTINGS.customItems[sec]=(SETTINGS.customItems[sec]||[]).filter(x=>x!==item);
+  if(RX.sections[sec]&&RX.sections[sec].items) delete RX.sections[sec].items[item];
+  save(K_SET,SETTINGS);
+  rebuildKeepState();
+  toast("Removed");
+}
+/* rebuild the form preserving which cards are open */
+function rebuildKeepState(){
+  const openState={};
+  document.querySelectorAll(".card[data-card]").forEach(c=>{
+    openState[c.dataset.card]=!c.classList.contains("collapsed");
+  });
+  buildForm();
+  document.querySelectorAll(".card[data-card]").forEach(c=>{
+    if(openState[c.dataset.card]) c.classList.remove("collapsed");
+    else if(c.dataset.card in openState) c.classList.add("collapsed");
+  });
+  refreshPreview();
+  save(K_DRAFT,RX);
+}
+
+/* =========================================================
+   PREVIEW  /  PDF PAGE
+   ========================================================= */
+function letterheadHTML(){
+  const s=SETTINGS;
+  const clinics=s.clinics.map(c=>
+    `<div class="rx-clinic"><b>${esc(c.name)}</b><br><span>${esc(c.location)}</span></div>`).join("");
+  const creds=s.credentials.map(c=>`<div class="rx-cred">${esc(c)}</div>`).join("");
+  let contact=[];
+  if(s.teleconsult) contact.push("Teleconsultation: "+esc(s.teleconsult));
+  if(s.contact) contact.push("Appointments / Viber: "+esc(s.contact));
+  return `
+    <div class="rx-docname">${esc(s.headerName)}</div>
+    <div class="rx-spec">${esc(s.specialty)}</div>
+    ${creds}
+    <hr class="rx-hr">
+    <div class="rx-clinics">${clinics}</div>
+    ${contact.length?`<div class="rx-contact">${contact.join("&nbsp;&nbsp;&middot;&nbsp;&nbsp;")}</div>`:""}
+    <hr class="rx-hr thick">`;
+}
+
+function patientHTML(){
+  const p=RX.patient;
+  const cell=(k,v)=>`<div class="rx-pf"><span class="k">${k}:</span>
+    <span class="v">${esc(v||"")}</span></div>`;
+  return `<div class="rx-patient">
+    ${cell("Name",p.name)}${cell("Age",p.age)}
+    ${cell("Address",p.address)}${cell("Date",fmtDate(p.date))}
+  </div>`;
+}
+
+function fieldHTML(label,value){
+  if(!value||!String(value).trim()) return "";
+  return `<div class="rx-field"><div class="k">${label}</div>
+    <div class="v">${nl2br(esc(value.trim()))}</div></div>`;
+}
+
+function secBlockHTML(sec,sub){
+  const sc=getSchema()[sec];
+  const d=RX.sections[sec]||{items:{},note:""};
+  const sel=[];
+  sc.items.forEach(item=>{
+    const x=d.items?d.items[item]:null;
+    if(x&&x.on) sel.push({label:item,detail:(x.detail||"").trim()});
+  });
+  const note=(d.note||"").trim();
+  if(!sel.length && !note) return "";
+  const plain=sel.filter(s=>!s.detail);
+  const det=sel.filter(s=>s.detail);
+  let inner="";
+  if(plain.length)
+    inner+=`<div class="rx-chips">`+plain.map(s=>
+      `<span class="rx-chip">✓ ${esc(s.label)}</span>`).join("")+`</div>`;
+  if(det.length)
+    inner+=`<ul class="rx-ul">`+det.map(s=>
+      `<li>✓ <b>${esc(s.label)}</b> &mdash; ${esc(s.detail)}</li>`).join("")+`</ul>`;
+  if(note) inner+=`<div class="rx-note">${nl2br(esc(note))}</div>`;
+  const h=sub?`<div class="rx-subh">${esc(sc.title)}</div>`
+             :`<div class="rx-sech">${esc(sc.title)}</div>`;
+  return `<div class="rx-block">${h}${inner}</div>`;
+}
+
+function previewHTML(){
+  let body="";
+  body+=letterheadHTML();
+  body+=patientHTML();
+  body+=`<div class="rx-title">${esc(SETTINGS.docTitle||"Physical Therapy Prescription")}</div>`;
+
+  /* diagnosis */
+  body+=fieldHTML("Diagnosis",RX.diagnosis)
+    || `<div class="rx-field"><div class="k">Diagnosis</div>
+        <div class="v rx-empty">—</div></div>`;
+
+  body+=secBlockHTML("goals",false);
+  body+=fieldHTML("Precautions",RX.precautions);
+  body+=fieldHTML("Frequency / Sessions",RX.frequency);
+  body+=secBlockHTML("modalities",false);
+
+  /* exercises group */
+  let ex="";
+  EX_SECTIONS.forEach(sec=>{ ex+=secBlockHTML(sec,true); });
+  if(ex.trim())
+    body+=`<div class="rx-exgroup"><div class="rx-sech">Exercises</div>${ex}</div>`;
+
+  body+=fieldHTML("Follow-up",RX.followUp);
+
+  /* signature */
+  const s=SETTINGS;
+  body+=`<div class="rx-foot"><div class="rx-sign">
+    <div class="line"></div>
+    <div class="nm">${esc(s.signatureName)}</div>
+    <div class="sm">PRC No. ${esc(s.prc||"________")}</div>
+    <div class="sm">PTR No. ${esc(s.ptr||"________________")}</div>
+  </div></div>`;
+  return body;
+}
+
+let previewTimer=null;
+function refreshPreview(){
+  clearTimeout(previewTimer);
+  previewTimer=setTimeout(()=>{
+    const html=previewHTML();
+    $("#previewPage").innerHTML=html;
+    $("#pdfPage").innerHTML=html;
+    fitPreview();
+  },90);
+}
+
+function fitPreview(){
+  const wrap=$("#previewWrap"), page=$("#previewPage");
+  if(!wrap) return;
+  const avail=wrap.clientWidth;
+  if(avail<10){ return; }
+  const scale=Math.min(1,avail/794);
+  page.style.transform=`scale(${scale})`;
+  wrap.style.height=(page.offsetHeight*scale)+"px";
+}
+window.addEventListener("resize",fitPreview);
+
+/* =========================================================
+   PDF  /  PRINT
+   ========================================================= */
+function rxFilename(ext){
+  const nm=(RX.patient.name||"Patient").replace(/[^\w \-]/g,"").trim()||"Patient";
+  const dt=RX.patient.date||todayISO();
+  return `PT Prescription - ${nm} - ${dt}.${ext}`;
+}
+
+async function downloadPDF(){
+  const btn=$("#btnPdf");
+  btn.disabled=true; const old=btn.textContent; btn.textContent="Generating…";
+  try{
+    $("#pdfPage").innerHTML=previewHTML();
+    await new Promise(r=>setTimeout(r,80));
+    const node=$("#pdfPage");
+    const canvas=await html2canvas(node,{
+      scale:2.5, backgroundColor:"#ffffff", useCORS:true,
+      windowWidth:794, width:794, height:node.offsetHeight
+    });
+    const img=canvas.toDataURL("image/jpeg",0.96);
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF("p","mm","a4");
+    const PW=210, PH=297;
+    let iw=PW, ih=canvas.height*PW/canvas.width;
+
+    if(ih<=PH){
+      pdf.addImage(img,"JPEG",0,0,iw,ih,undefined,"FAST");
+    }else if(ih<=PH*1.22){
+      /* almost one page -> scale down to fit a single A4 */
+      ih=PH; iw=canvas.width*PH/canvas.height;
+      pdf.addImage(img,"JPEG",(PW-iw)/2,0,iw,ih,undefined,"FAST");
+    }else{
+      /* multi-page */
+      let left=ih, pos=0;
+      pdf.addImage(img,"JPEG",0,0,iw,ih,undefined,"FAST");
+      left-=PH;
+      while(left>0){ pos-=PH; pdf.addPage();
+        pdf.addImage(img,"JPEG",0,pos,iw,ih,undefined,"FAST"); left-=PH; }
+    }
+    pdf.save(rxFilename("pdf"));
+    toast("PDF downloaded");
+  }catch(err){
+    console.error(err);
+    toast("PDF failed – try the Print button instead");
+  }finally{
+    btn.disabled=false; btn.textContent=old;
+  }
+}
+
+function printRx(){
+  $("#pdfPage").innerHTML=previewHTML();
+  setTimeout(()=>window.print(),60);
+}
+
+/* =========================================================
+   SAVE  /  OPEN  /  NEW
+   ========================================================= */
+function saveRx(){
+  RX.updatedAt=Date.now();
+  if(RX.id){
+    const i=SAVED.findIndex(r=>r.id===RX.id);
+    if(i>=0) SAVED[i]=JSON.parse(JSON.stringify(RX));
+    else SAVED.unshift(JSON.parse(JSON.stringify(RX)));
+  }else{
+    RX.id=uid(); RX.createdAt=Date.now();
+    SAVED.unshift(JSON.parse(JSON.stringify(RX)));
+  }
+  save(K_RX,SAVED);
+  save(K_DRAFT,RX);
+  toast("Prescription saved");
+}
+
+function newRx(){
+  if(!confirm("Start a new blank prescription? Unsaved changes to the current one will be cleared."))
+    return;
+  RX=blankRx();
+  save(K_DRAFT,RX);
+  buildForm();
+  refreshPreview();
+  toast("New prescription");
+}
+
+function openRx(id){
+  const r=SAVED.find(x=>x.id===id);
+  if(!r) return;
+  RX=JSON.parse(JSON.stringify(r));
+  save(K_DRAFT,RX);
+  buildForm();
+  refreshPreview();
+  closeModal();
+  toast("Opened");
+}
+
+function duplicateRx(id){
+  const r=SAVED.find(x=>x.id===id);
+  if(!r) return;
+  RX=JSON.parse(JSON.stringify(r));
+  RX.id=null; RX.createdAt=Date.now(); RX.updatedAt=Date.now();
+  RX.patient.date=todayISO();
+  save(K_DRAFT,RX);
+  buildForm();
+  refreshPreview();
+  closeModal();
+  toast("Duplicated as a new prescription");
+}
+
+function deleteRx(id){
+  if(!confirm("Delete this saved prescription? This cannot be undone.")) return;
+  SAVED=SAVED.filter(x=>x.id!==id);
+  save(K_RX,SAVED);
+  renderSavedModal($("#savedSearch")?$("#savedSearch").value:"");
+  toast("Deleted");
+}
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+function openModal(title,bodyHTML,footHTML){
+  $("#modalTitle").textContent=title;
+  $("#modalBody").innerHTML=bodyHTML;
+  $("#modalFoot").innerHTML=footHTML||"";
+  $("#overlay").classList.add("open");
+}
+function closeModal(){ $("#overlay").classList.remove("open"); }
+$("#modalClose").onclick=closeModal;
+$("#overlay").addEventListener("click",e=>{ if(e.target===$("#overlay")) closeModal(); });
+
+/* ---- Saved prescriptions ---- */
+function showSaved(){
+  openModal("Saved Prescriptions",
+    `<input type="text" id="savedSearch" placeholder="Search by patient name or diagnosis"
+       style="margin-bottom:12px">
+     <div id="savedList"></div>`,
+    `<button class="tbtn" id="mDone">Done</button>`);
+  $("#mDone").onclick=closeModal;
+  $("#savedSearch").addEventListener("input",e=>renderSavedModal(e.target.value));
+  renderSavedModal("");
+}
+function renderSavedModal(q){
+  q=(q||"").toLowerCase();
+  const list=$("#savedList");
+  if(!list) return;
+  let rows=SAVED.slice().sort((a,b)=>b.updatedAt-a.updatedAt);
+  if(q) rows=rows.filter(r=>
+    (r.patient.name||"").toLowerCase().includes(q) ||
+    (r.diagnosis||"").toLowerCase().includes(q));
+  if(!rows.length){
+    list.innerHTML=`<div class="hint" style="text-align:center;padding:18px">
+      ${SAVED.length?"No matches.":"No saved prescriptions yet. Fill the form and press Save."}</div>`;
+    return;
+  }
+  list.innerHTML=rows.map(r=>`
+    <div class="saved-item">
+      <div class="nm">${esc(r.patient.name||"Untitled patient")}</div>
+      <div class="meta">${esc(fmtDate(r.patient.date)||"—")}
+        ${r.diagnosis?" &middot; "+esc(r.diagnosis.slice(0,70)):""}</div>
+      <div class="acts">
+        <button class="mini accent" data-open="${r.id}">Open</button>
+        <button class="mini" data-dup="${r.id}">Duplicate</button>
+        <button class="mini danger" data-del="${r.id}">Delete</button>
+      </div>
+    </div>`).join("");
+  list.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openRx(b.dataset.open));
+  list.querySelectorAll("[data-dup]").forEach(b=>b.onclick=()=>duplicateRx(b.dataset.dup));
+  list.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteRx(b.dataset.del));
+}
+
+/* ---- Settings ---- */
+function showSettings(){
+  const s=SETTINGS;
+  const customList=Object.keys(s.customItems||{}).flatMap(sec=>
+    (s.customItems[sec]||[]).map(it=>({sec,it})));
+  const customHTML=customList.length
+    ? customList.map(c=>`<span class="chip-del">${esc(c.it)}
+        <button data-rmcustom="${c.sec}" data-i="${esc(c.it)}">&times;</button></span>`).join("")
+    : `<span class="hint">None yet. Use “+ Add item” on any list in the form.</span>`;
+
+  openModal("Settings",`
+    <div class="set-row"><label>Doctor name (letterhead)</label>
+      <input type="text" id="setName" value="${esc(s.headerName)}"></div>
+    <div class="set-row"><label>Specialty line</label>
+      <input type="text" id="setSpec" value="${esc(s.specialty)}"></div>
+    <div class="set-row"><label>Credentials</label>
+      <div class="sub">One per line</div>
+      <textarea id="setCred" rows="3">${esc(s.credentials.join("\n"))}</textarea></div>
+    <div class="set-row"><label>Clinics</label>
+      <div class="sub">One per line, format: Clinic name | Location</div>
+      <textarea id="setClin" rows="5">${esc(s.clinics.map(c=>c.name+" | "+c.location).join("\n"))}</textarea></div>
+    <div class="set-row"><label>Teleconsultation link</label>
+      <input type="text" id="setTele" value="${esc(s.teleconsult)}"></div>
+    <div class="set-row"><label>Appointments / Viber number</label>
+      <input type="text" id="setContact" value="${esc(s.contact)}"></div>
+    <div class="set-row"><label>Document title</label>
+      <input type="text" id="setTitle" value="${esc(s.docTitle)}"></div>
+    <div class="set-row"><label>Signature name</label>
+      <input type="text" id="setSign" value="${esc(s.signatureName)}"></div>
+    <div class="grid2">
+      <div class="set-row"><label>PRC No.</label>
+        <input type="text" id="setPrc" value="${esc(s.prc)}"></div>
+      <div class="set-row"><label>PTR No.</label>
+        <input type="text" id="setPtr" value="${esc(s.ptr)}"></div>
+    </div>
+    <div class="set-row"><label>Custom items you've added</label>
+      <div>${customHTML}</div></div>
+    <div class="set-row"><label>Backup &amp; restore</label>
+      <div class="sub">Your data lives only in this browser. Export a backup file you can
+        keep or load on another device.</div>
+      <button class="mini" id="setExport">Export backup</button>
+      <button class="mini" id="setImport">Import backup</button>
+      <button class="mini danger" id="setReset">Reset letterhead to defaults</button>
+    </div>
+  `,`
+    <button class="tbtn" id="setCancel">Cancel</button>
+    <button class="tbtn primary" id="setSave">Save settings</button>
+  `);
+
+  $("#setCancel").onclick=closeModal;
+  $("#setSave").onclick=saveSettings;
+  $("#setExport").onclick=exportData;
+  $("#setImport").onclick=()=>$("#importFile").click();
+  $("#setReset").onclick=()=>{
+    if(!confirm("Reset the letterhead, clinics and signature to the original defaults? "+
+      "Your saved prescriptions and custom items are kept.")) return;
+    const ci=SETTINGS.customItems;
+    SETTINGS=defaultSettings(); SETTINGS.customItems=ci;
+    save(K_SET,SETTINGS); showSettings(); refreshPreview(); toast("Letterhead reset");
+  };
+  $("#modalBody").querySelectorAll("[data-rmcustom]").forEach(b=>{
+    b.onclick=()=>{
+      SETTINGS.customItems[b.dataset.rmcustom]=
+        (SETTINGS.customItems[b.dataset.rmcustom]||[]).filter(x=>x!==b.dataset.i);
+      save(K_SET,SETTINGS); rebuildKeepState(); showSettings();
+    };
+  });
+}
+
+function saveSettings(){
+  const v=id=>$("#"+id).value;
+  SETTINGS.headerName=v("setName").trim();
+  SETTINGS.specialty=v("setSpec").trim();
+  SETTINGS.credentials=v("setCred").split("\n").map(x=>x.trim()).filter(Boolean);
+  SETTINGS.clinics=v("setClin").split("\n").map(x=>x.trim()).filter(Boolean).map(line=>{
+    const p=line.split("|");
+    return {name:(p[0]||"").trim(),location:(p[1]||"").trim()};
+  });
+  SETTINGS.teleconsult=v("setTele").trim();
+  SETTINGS.contact=v("setContact").trim();
+  SETTINGS.docTitle=v("setTitle").trim()||"Physical Therapy Prescription";
+  SETTINGS.signatureName=v("setSign").trim();
+  SETTINGS.prc=v("setPrc").trim();
+  SETTINGS.ptr=v("setPtr").trim();
+  save(K_SET,SETTINGS);
+  closeModal();
+  refreshPreview();
+  toast("Settings saved");
+}
+
+/* =========================================================
+   BACKUP  /  RESTORE
+   ========================================================= */
+function exportData(){
+  const blob=new Blob([JSON.stringify({
+    app:"RehabPrescriptionPad", version:1, exported:new Date().toISOString(),
+    settings:SETTINGS, prescriptions:SAVED
+  },null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="rehab-prescription-backup-"+todayISO()+".json";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  toast("Backup exported");
+}
+
+$("#importFile").addEventListener("change",e=>{
+  const file=e.target.files[0];
+  if(!file) return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const data=JSON.parse(reader.result);
+      if(!data||!data.settings) throw new Error("bad file");
+      if(!confirm("Import this backup? It will replace your current settings and "+
+        "merge in its saved prescriptions.")) return;
+      SETTINGS=Object.assign(defaultSettings(),data.settings);
+      if(!SETTINGS.customItems) SETTINGS.customItems={};
+      const incoming=Array.isArray(data.prescriptions)?data.prescriptions:[];
+      const ids=new Set(SAVED.map(r=>r.id));
+      incoming.forEach(r=>{ if(r&&r.id&&!ids.has(r.id)) SAVED.push(r); });
+      save(K_SET,SETTINGS); save(K_RX,SAVED);
+      buildForm(); refreshPreview(); closeModal();
+      toast("Backup imported");
+    }catch(err){ toast("That file could not be read"); }
+  };
+  reader.readAsText(file);
+  e.target.value="";
+});
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+let toastTimer=null;
+function toast(msg){
+  const t=$("#toast");
+  t.textContent=msg;
+  t.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove("show"),2400);
+}
+
+/* =========================================================
+   TABS  (mobile)
+   ========================================================= */
+function setTab(which){
+  const form=which==="form";
+  $("#tabForm").classList.toggle("active",form);
+  $("#tabPreview").classList.toggle("active",!form);
+  $("#formPane").classList.toggle("active",form);
+  $("#previewPane").classList.toggle("active",!form);
+  if(!form) setTimeout(fitPreview,30);
+}
+$("#tabForm").onclick=()=>setTab("form");
+$("#tabPreview").onclick=()=>setTab("preview");
+
+/* =========================================================
+   WIRE TOP BAR
+   ========================================================= */
+$("#btnNew").onclick=newRx;
+$("#btnSaved").onclick=showSaved;
+$("#btnSettings").onclick=showSettings;
+$("#btnPrint").onclick=printRx;
+$("#btnPdf").onclick=downloadPDF;
+
+/* =========================================================
+   INIT
+   ========================================================= */
+buildForm();
+refreshPreview();
+setTimeout(fitPreview,150);
+window.addEventListener("load",fitPreview);
+</script>
+</body>
+</html>
