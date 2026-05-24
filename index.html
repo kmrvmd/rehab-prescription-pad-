@@ -45,6 +45,8 @@
   .tbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
   .tbtn.primary:hover{background:var(--accent-d)}
   .tbtn:disabled{opacity:.55;cursor:default}
+  .gdot{width:8px;height:8px;border-radius:50%;background:#22c55e;display:none}
+  .gdot.on{display:inline-block}
 
   /* ---------- Mobile tabs ---------- */
   .tabs{display:flex;background:#fff;border-bottom:1px solid var(--line)}
@@ -130,6 +132,7 @@
   .add-btn:hover{border-color:var(--accent);background:var(--accent-l)}
 
   .hint{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+  .hint a{color:var(--accent);cursor:pointer;text-decoration:underline}
 
   /* ---------- Preview ---------- */
   .preview-wrap{overflow:hidden}
@@ -138,11 +141,7 @@
     box-shadow:0 6px 26px rgba(15,23,42,.16);
     transform-origin:top center;
   }
-
-  /* ---------- The printable / PDF page ---------- */
-  .rx-page{
-    color:#15202b;padding:46px 48px 40px;font-size:12px;line-height:1.5;
-  }
+  .rx-page{ color:#15202b;padding:46px 48px 40px;font-size:12px;line-height:1.5; }
   .rx-docname{
     font-family:Georgia,"Times New Roman",serif;font-weight:700;
     font-size:27px;text-align:center;letter-spacing:.3px;color:#0b3a44;
@@ -171,12 +170,10 @@
     text-transform:uppercase;color:#0b3a44;margin:16px 0 4px;
     padding-bottom:6px;border-bottom:2px solid #0e7490;
   }
-
   .rx-field{margin-top:11px;font-size:12px}
   .rx-field .k{font-weight:800;color:#0e7490;text-transform:uppercase;
     font-size:10.5px;letter-spacing:.04em}
   .rx-field .v{margin-top:2px;white-space:pre-wrap}
-
   .rx-sech{
     font-weight:800;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
     color:#0b3a44;margin:14px 0 5px;padding-bottom:3px;border-bottom:1.5px solid #bae0e7;
@@ -192,8 +189,10 @@
   .rx-ul li{font-size:11.5px;margin:2px 0;padding-left:2px}
   .rx-note{font-size:11px;color:#334155;margin-top:3px;white-space:pre-wrap;font-style:italic}
 
-  .rx-foot{margin-top:38px;display:flex;justify-content:flex-end}
-  .rx-sign{text-align:center;min-width:280px}
+  .rx-foot{margin-top:34px;display:flex;justify-content:flex-end}
+  .rx-sign{text-align:center;min-width:300px}
+  .rx-sigimg{display:block;margin:0 auto -8px;max-width:250px;max-height:80px;object-fit:contain}
+  .rx-sigspace{height:46px}
   .rx-sign .line{border-top:1px solid #15202b;margin-bottom:3px}
   .rx-sign .nm{font-weight:800;font-size:12.5px}
   .rx-sign .sm{font-size:10.5px;color:#334155;margin-top:1px}
@@ -206,58 +205,66 @@
     overflow-y:auto;
   }
   .overlay.open{display:flex}
-  .modal{
-    background:#fff;border-radius:14px;width:100%;max-width:540px;
-    margin:auto;overflow:hidden;
-  }
+  .modal{background:#fff;border-radius:14px;width:100%;max-width:560px;margin:auto;overflow:hidden}
   .modal-h{display:flex;align-items:center;padding:15px 17px;border-bottom:1px solid var(--line)}
   .modal-h h3{font-size:15px;flex:1}
   .modal-h .close{border:none;background:none;font-size:22px;color:var(--muted);line-height:1}
-  .modal-b{padding:16px 17px;max-height:70vh;overflow-y:auto}
+  .modal-b{padding:16px 17px;max-height:72vh;overflow-y:auto}
   .modal-f{padding:13px 17px;border-top:1px solid var(--line);display:flex;gap:9px;justify-content:flex-end}
 
-  .saved-item{
-    border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:9px;
-  }
-  .saved-item .nm{font-weight:700;font-size:14px}
-  .saved-item .meta{font-size:12px;color:var(--muted);margin-top:2px}
-  .saved-item .acts{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
-  .mini{
-    border:1px solid var(--line);background:#fff;border-radius:7px;
-    padding:6px 11px;font-size:12px;font-weight:600;
-  }
+  .mini{border:1px solid var(--line);background:#fff;border-radius:7px;
+    padding:6px 11px;font-size:12px;font-weight:600}
   .mini:hover{background:#f8fafc}
   .mini.accent{color:var(--accent);border-color:#bae0e7}
   .mini.danger{color:var(--danger);border-color:#fbcaca}
+  .mini.solid{background:var(--accent);color:#fff;border-color:var(--accent)}
 
+  .set-section{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--accent-d);margin:20px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+  .set-section:first-child{margin-top:0}
   .set-row{margin-bottom:13px}
   .set-row label{display:block;font-size:12px;font-weight:700;color:var(--ink);margin-bottom:4px}
   .set-row .sub{font-size:11px;color:var(--muted);font-weight:400;margin-bottom:4px}
-  .chip-del{
-    display:inline-flex;align-items:center;gap:6px;background:#f1f5f9;
-    border-radius:7px;padding:4px 6px 4px 10px;font-size:12px;margin:3px 4px 0 0;
-  }
+  .chip-del{display:inline-flex;align-items:center;gap:6px;background:#f1f5f9;
+    border-radius:7px;padding:4px 6px 4px 10px;font-size:12px;margin:3px 4px 0 0}
   .chip-del button{border:none;background:none;color:var(--danger);font-size:15px;line-height:1}
+
+  .sig-box{border:1px solid var(--line);border-radius:9px;background:#f8fafc;
+    padding:12px;text-align:center;margin-bottom:8px}
+  .sig-box img{max-width:100%;max-height:90px;object-fit:contain}
+  .sig-box .none{font-size:12px;color:var(--muted);padding:14px 0}
+
+  .gstatus{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;
+    padding:10px 12px;border-radius:9px;background:#f8fafc;border:1px solid var(--line);margin-bottom:10px}
+  .gstatus .d{width:9px;height:9px;border-radius:50%;background:#cbd5e1;flex:none}
+  .gstatus.ok .d{background:#22c55e}
+  .glinks{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+
+  .saved-item{border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:9px}
+  .saved-item .nm{font-weight:700;font-size:14px}
+  .saved-item .meta{font-size:12px;color:var(--muted);margin-top:2px}
+  .saved-item .acts{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
+  .pg-head{display:flex;align-items:center;gap:8px;margin:16px 0 8px}
+  .pg-head .pn{font-weight:800;font-size:14px;color:var(--ink)}
+  .pg-head .pc{font-size:11px;color:var(--muted)}
+  .pg-head .sp{flex:1}
 
   /* ---------- Toast ---------- */
   .toast{
     position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
     background:#0f172a;color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;
     font-weight:600;z-index:80;opacity:0;transition:.25s;pointer-events:none;
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
+    box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:88vw;text-align:center;
   }
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-  /* ---------- Desktop ---------- */
   @media(min-width:980px){
     .tabs{display:none}
     .pane{display:block !important}
     .main{display:flex}
   }
-  /* off-screen render target for PDF / print */
   #pdfPage{position:absolute;left:-10000px;top:0;pointer-events:none}
 
-  /* ---------- Print ---------- */
   @media print{
     @page{size:A4;margin:0}
     body{background:#fff}
@@ -275,11 +282,12 @@
       <div class="logo">Rx</div>
       <div>
         <div class="t1">Rehab Prescription Pad</div>
-        <div class="t2">Dr. Villanueva &middot; saved on this device</div>
+        <div class="t2">Dr. Villanueva</div>
       </div>
     </div>
     <button class="tbtn" id="btnNew">New</button>
-    <button class="tbtn" id="btnSaved">Saved</button>
+    <button class="tbtn primary" id="btnSave">Save</button>
+    <button class="tbtn" id="btnDatabase">Database <span class="gdot" id="gdot"></span></button>
     <button class="tbtn" id="btnSettings">Settings</button>
     <button class="tbtn" id="btnPrint">Print</button>
     <button class="tbtn primary" id="btnPdf">Download PDF</button>
@@ -304,7 +312,6 @@
 
 <div class="rx-page" id="pdfPage"></div>
 
-<!-- Modal -->
 <div class="overlay" id="overlay">
   <div class="modal">
     <div class="modal-h">
@@ -317,19 +324,21 @@
 </div>
 
 <div class="toast" id="toast"></div>
-
 <input type="file" id="importFile" accept="application/json" style="display:none">
+<input type="file" id="sigFile" accept="image/*" style="display:none">
 
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 "use strict";
 /* =========================================================
-   Rehab Prescription Pad  -  single-file web app
-   Data is stored only in this browser (localStorage).
+   Rehab Prescription Pad
+   Single-file web app. Data is stored in this browser, and
+   (optionally) synced to the doctor's own Google Drive.
    ========================================================= */
 
-/* ---------- Defaults pulled from Dr. Villanueva's form ---------- */
+/* ---------- Defaults from Dr. Villanueva's form ---------- */
 function defaultSettings(){
   return {
     headerName:"KIM RENDELL VILLANUEVA, MD, DPARM",
@@ -352,11 +361,13 @@ function defaultSettings(){
     signatureName:"KIM RENDELL VILLANUEVA, MD",
     prc:"0142732",
     ptr:"",
+    signature:"",        /* processed e-signature, data URL */
+    googleClientId:"",    /* OAuth client ID for Drive sync */
     customItems:{}
   };
 }
 
-/* ---------- Base schema (the checkbox sections) ---------- */
+/* ---------- Base schema ---------- */
 const BASE_SCHEMA = {
   goals:{ title:"Rehab Goals", note:true, noteLabel:"Other goals", items:[
     "To improve strength","To improve gait / ambulation","To decrease pain",
@@ -364,7 +375,7 @@ const BASE_SCHEMA = {
   modalities:{ title:"Modalities", note:true, detailAll:true, items:[
     "ES","FES","TENS","HMP","US","ESWT","TECAR","LASER"]},
   rom:{ title:"Range of Motion", group:"ex", note:true, detailAll:true, items:[
-    "AROME","AAROME","PROME","UE","LE"]},
+    "AROME","AAROME","PROME"]},
   strengthening:{ title:"Strengthening", group:"ex", note:true, detailAll:true, items:[
     "UE","LE"]},
   gps:{ title:"GPS / Stretching", group:"ex", note:true, detailAll:true, items:[
@@ -376,8 +387,7 @@ const BASE_SCHEMA = {
     "Long ↔ Short sitting","Sit ↔ Stand"]},
   transfer:{ title:"Transfer Skills", group:"ex", items:[
     "Bed ↔ Wheelchair"]},
-  otherEx:{ title:"Other Exercises & Techniques", group:"ex", note:true,
-    detailItems:["PNF","Parallel bar exercises","Stabilization exercises","Gait retraining"],
+  otherEx:{ title:"Other Exercises & Techniques", group:"ex", note:true, detailAll:true,
     items:[
       "McKenzie exercises","William's exercises","Finger ladder / Shoulder wheel",
       "Coordination exercises","Balance / Proprioception","PNF","NDT / Bobath",
@@ -387,12 +397,19 @@ const BASE_SCHEMA = {
       "Scoliosis-specific exercises (Klapp's / Schroth)","Proper body mechanics",
       "Joint conservation techniques","Postural reeducation","Home exercise program"]}
 };
-const SECTION_ORDER = ["goals","modalities","rom","strengthening","gps",
-  "balance","transitional","transfer","otherEx"];
 const EX_SECTIONS = ["rom","strengthening","gps","balance","transitional","transfer","otherEx"];
 
+/* ---------- Google constants ---------- */
+const SCOPES = "https://www.googleapis.com/auth/drive.file "+
+               "https://www.googleapis.com/auth/spreadsheets";
+const ROOT_FOLDER = "Rehab Prescription Pad";
+const SHEET_NAME  = "Rehab Prescriptions — Master Log";
+const SHEET_HEADERS = ["Date","Patient","Age","Diagnosis","Follow-up",
+  "PDF","Last updated","Record ID","Data (do not edit)"];
+
 /* ---------- Storage keys ---------- */
-const K_SET="rxpad_v1_settings", K_RX="rxpad_v1_prescriptions", K_DRAFT="rxpad_v1_draft";
+const K_SET="rxpad_v1_settings", K_RX="rxpad_v1_prescriptions",
+      K_DRAFT="rxpad_v1_draft", K_DRIVE="rxpad_v1_drive";
 
 /* ---------- Helpers ---------- */
 const $ = s=>document.querySelector(s);
@@ -409,29 +426,31 @@ function fmtDate(iso){
   return d.toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
 }
 function setPath(o,p,v){const k=p.split(".");let c=o;
-  for(let i=0;i<k.length-1;i++){c=c[k[i]=k[i]]=c[k[i]]||{};}c[k[k.length-1]]=v;}
-function getPath(o,p){return p.split(".").reduce((c,k)=>c&&c[k],o);}
+  for(let i=0;i<k.length-1;i++){c=c[k[i]]=c[k[i]]||{};}c[k[k.length-1]]=v;}
 function load(key,fb){try{const v=localStorage.getItem(key);return v?JSON.parse(v):fb;}
   catch(e){return fb;}}
 function save(key,val){try{localStorage.setItem(key,JSON.stringify(val));}catch(e){
-  toast("Could not save – storage may be full");}}
+  toast("Could not save locally – storage may be full");}}
+function clone(o){return JSON.parse(JSON.stringify(o));}
 
 /* ---------- State ---------- */
 let SETTINGS = Object.assign(defaultSettings(), load(K_SET,{}));
 if(!SETTINGS.customItems) SETTINGS.customItems={};
 let SAVED = load(K_RX,[]);
+let DRIVE = load(K_DRIVE,{rootId:null,sheetId:null,patientFolders:{}});
 let RX = load(K_DRAFT,null) || blankRx();
+if(RX.signed===undefined) RX.signed=true;
 
 function blankRx(){
   return { id:null, createdAt:Date.now(), updatedAt:Date.now(),
     patient:{name:"",address:"",date:todayISO(),age:""},
     diagnosis:"", precautions:"", frequency:"", followUp:"",
+    signed:true, driveFileId:null, pdfLink:"",
     sections:{} };
 }
 
-/* schema merged with the user's custom items */
 function getSchema(){
-  const s=JSON.parse(JSON.stringify(BASE_SCHEMA));
+  const s=clone(BASE_SCHEMA);
   const ci=SETTINGS.customItems||{};
   Object.keys(ci).forEach(sec=>{
     if(!s[sec]) return;
@@ -467,10 +486,7 @@ function sectionCount(sec){
    FORM BUILDING
    ========================================================= */
 function buildForm(){
-  const f=$("#form");
   let html="";
-
-  /* Patient card */
   html+=card("patient","Patient Information",false,`
     <div class="grid2">
       <div class="fld"><label>Patient's name</label>
@@ -485,7 +501,6 @@ function buildForm(){
       <input type="date" data-bind="patient.date" value="${esc(RX.patient.date)}"></div>
   `,false);
 
-  /* Clinical card */
   html+=card("clinical","Diagnosis &amp; Plan",false,`
     <div class="fld"><label>Diagnosis</label>
       <textarea data-bind="diagnosis" placeholder="Primary diagnosis / impression">${esc(RX.diagnosis)}</textarea></div>
@@ -496,28 +511,33 @@ function buildForm(){
         placeholder="e.g. 3x / week for 4 weeks"></div>
   `,false);
 
-  /* Goals + Modalities */
   html+=sectionCard("goals",false);
   html+=sectionCard("modalities",true);
-
-  /* Exercises group */
   html+=`<div class="group-label">Exercises</div>`;
   EX_SECTIONS.forEach(sec=>{ html+=sectionCard(sec,true); });
 
-  /* Follow-up */
-  html+=card("followup","Follow-up",false,`
+  const sigHint = SETTINGS.signature
+    ? "Your saved e-signature is used."
+    : `No e-signature saved yet. <a data-open-settings="1">Add one in Settings</a>.`;
+  html+=card("followup","Follow-up &amp; Signature",false,`
     <div class="fld"><label>Follow-up</label>
       <input type="text" data-bind="followUp" value="${esc(RX.followUp)}"
         placeholder="e.g. Re-evaluate in 2 weeks"></div>
-    <div class="hint">The signature block, PRC No. and PTR No. are taken from
-      Settings and appear automatically on every prescription.</div>
+    <div class="item-wrap" style="margin-top:8px">
+      <label class="item">
+        <input type="checkbox" data-bindbool="signed" ${RX.signed!==false?"checked":""}>
+        <span class="lbl">Include my e-signature on this prescription</span>
+      </label>
+    </div>
+    <div class="hint">${sigHint} PRC No. and PTR No. come from Settings and appear automatically.</div>
   `,false);
 
-  f.innerHTML=html;
+  $("#form").innerHTML=html;
   refreshBadges();
 }
 
-function card(id,title,collapsed,body,withBadge){
+function card(id,title,collapsed,body){
+  const withBadge = !!BASE_SCHEMA[id];
   return `<section class="card collapsible ${collapsed?'collapsed':''}" data-card="${id}">
     <div class="card-h" data-toggle="${id}">
       <span class="card-title">${title}</span>
@@ -540,7 +560,7 @@ function sectionCard(sec,collapsed){
       <textarea data-sec="${sec}" data-role="note"
         placeholder="Anything not listed above">${esc(d.note||"")}</textarea></div>`;
   }
-  return card(sec,sc.title,collapsed,body,true);
+  return card(sec,sc.title,collapsed,body);
 }
 
 function itemRow(sec,item){
@@ -552,7 +572,7 @@ function itemRow(sec,item){
   if(hasDetail){
     detail=`<div class="detail"><input type="text" data-sec="${sec}" data-role="detail"
       data-item="${esc(item)}" value="${esc(d.detail||"")}"
-      placeholder="details / parameters (optional)"></div>`;
+      placeholder="custom description / parameters"></div>`;
   }
   return `<div class="item-wrap ${on?'on':''}">
     <label class="item">
@@ -573,11 +593,12 @@ $("#form").addEventListener("input",e=>{
   const t=e.target;
   if(t.dataset.bind){
     setPath(RX,t.dataset.bind,t.value);
+  }else if(t.dataset.bindbool){
+    setPath(RX,t.dataset.bindbool,t.checked);
   }else if(t.dataset.sec){
     const sec=t.dataset.sec, role=t.dataset.role;
     if(role==="check"){
-      const it=itemData(sec,t.dataset.item);
-      it.on=t.checked;
+      itemData(sec,t.dataset.item).on=t.checked;
       const wrap=t.closest(".item-wrap");
       if(wrap) wrap.classList.toggle("on",t.checked);
       refreshBadges();
@@ -594,14 +615,14 @@ $("#form").addEventListener("input",e=>{
 
 $("#form").addEventListener("click",e=>{
   const toggle=e.target.closest("[data-toggle]");
-  if(toggle){
-    toggle.closest(".card").classList.toggle("collapsed");
-    return;
+  if(toggle && !e.target.closest("input,textarea,a,button.add-btn,.x")){
+    toggle.closest(".card").classList.toggle("collapsed"); return;
   }
   const add=e.target.closest("[data-add]");
   if(add){ addCustomItem(add.dataset.add); return; }
   const del=e.target.closest("[data-del-custom]");
-  if(del){ e.preventDefault(); removeCustomItem(del.dataset.delCustom,del.dataset.item); }
+  if(del){ e.preventDefault(); removeCustomItem(del.dataset.delCustom,del.dataset.item); return; }
+  if(e.target.closest("[data-open-settings]")){ showSettings(); }
 });
 
 function refreshBadges(){
@@ -624,8 +645,8 @@ function scheduleAutosave(){
 function addCustomItem(sec){
   const label=(prompt("Add a new item to “"+getSchema()[sec].title+"”:")||"").trim();
   if(!label) return;
-  const all=getSchema()[sec].items.map(x=>x.toLowerCase());
-  if(all.includes(label.toLowerCase())){ toast("That item already exists"); return; }
+  if(getSchema()[sec].items.map(x=>x.toLowerCase()).includes(label.toLowerCase())){
+    toast("That item already exists"); return; }
   if(!SETTINGS.customItems[sec]) SETTINGS.customItems[sec]=[];
   SETTINGS.customItems[sec].push(label);
   save(K_SET,SETTINGS);
@@ -640,7 +661,6 @@ function removeCustomItem(sec,item){
   rebuildKeepState();
   toast("Removed");
 }
-/* rebuild the form preserving which cards are open */
 function rebuildKeepState(){
   const openState={};
   document.querySelectorAll(".card[data-card]").forEach(c=>{
@@ -648,8 +668,8 @@ function rebuildKeepState(){
   });
   buildForm();
   document.querySelectorAll(".card[data-card]").forEach(c=>{
-    if(openState[c.dataset.card]) c.classList.remove("collapsed");
-    else if(c.dataset.card in openState) c.classList.add("collapsed");
+    if(c.dataset.card in openState)
+      c.classList.toggle("collapsed",!openState[c.dataset.card]);
   });
   refreshPreview();
   save(K_DRAFT,RX);
@@ -675,7 +695,6 @@ function letterheadHTML(){
     ${contact.length?`<div class="rx-contact">${contact.join("&nbsp;&nbsp;&middot;&nbsp;&nbsp;")}</div>`:""}
     <hr class="rx-hr thick">`;
 }
-
 function patientHTML(){
   const p=RX.patient;
   const cell=(k,v)=>`<div class="rx-pf"><span class="k">${k}:</span>
@@ -685,13 +704,11 @@ function patientHTML(){
     ${cell("Address",p.address)}${cell("Date",fmtDate(p.date))}
   </div>`;
 }
-
 function fieldHTML(label,value){
   if(!value||!String(value).trim()) return "";
   return `<div class="rx-field"><div class="k">${label}</div>
     <div class="v">${nl2br(esc(value.trim()))}</div></div>`;
 }
-
 function secBlockHTML(sec,sub){
   const sc=getSchema()[sec];
   const d=RX.sections[sec]||{items:{},note:""};
@@ -716,34 +733,29 @@ function secBlockHTML(sec,sub){
              :`<div class="rx-sech">${esc(sc.title)}</div>`;
   return `<div class="rx-block">${h}${inner}</div>`;
 }
-
 function previewHTML(){
   let body="";
   body+=letterheadHTML();
   body+=patientHTML();
   body+=`<div class="rx-title">${esc(SETTINGS.docTitle||"Physical Therapy Prescription")}</div>`;
-
-  /* diagnosis */
   body+=fieldHTML("Diagnosis",RX.diagnosis)
     || `<div class="rx-field"><div class="k">Diagnosis</div>
         <div class="v rx-empty">—</div></div>`;
-
   body+=secBlockHTML("goals",false);
   body+=fieldHTML("Precautions",RX.precautions);
   body+=fieldHTML("Frequency / Sessions",RX.frequency);
   body+=secBlockHTML("modalities",false);
-
-  /* exercises group */
   let ex="";
   EX_SECTIONS.forEach(sec=>{ ex+=secBlockHTML(sec,true); });
   if(ex.trim())
     body+=`<div class="rx-exgroup"><div class="rx-sech">Exercises</div>${ex}</div>`;
-
   body+=fieldHTML("Follow-up",RX.followUp);
-
-  /* signature */
   const s=SETTINGS;
+  const sigImg=(RX.signed!==false && s.signature)
+    ? `<img class="rx-sigimg" src="${s.signature}" alt="signature">`
+    : `<div class="rx-sigspace"></div>`;
   body+=`<div class="rx-foot"><div class="rx-sign">
+    ${sigImg}
     <div class="line"></div>
     <div class="nm">${esc(s.signatureName)}</div>
     <div class="sm">PRC No. ${esc(s.prc||"________")}</div>
@@ -762,12 +774,11 @@ function refreshPreview(){
     fitPreview();
   },90);
 }
-
 function fitPreview(){
   const wrap=$("#previewWrap"), page=$("#previewPage");
   if(!wrap) return;
   const avail=wrap.clientWidth;
-  if(avail<10){ return; }
+  if(avail<10) return;
   const scale=Math.min(1,avail/794);
   page.style.transform=`scale(${scale})`;
   wrap.style.height=(page.offsetHeight*scale)+"px";
@@ -777,116 +788,355 @@ window.addEventListener("resize",fitPreview);
 /* =========================================================
    PDF  /  PRINT
    ========================================================= */
-function rxFilename(ext){
-  const nm=(RX.patient.name||"Patient").replace(/[^\w \-]/g,"").trim()||"Patient";
-  const dt=RX.patient.date||todayISO();
+function rxFilename(rx,ext){
+  rx=rx||RX;
+  const nm=(rx.patient.name||"Patient").replace(/[^\w \-]/g,"").trim()||"Patient";
+  const dt=rx.patient.date||todayISO();
   return `PT Prescription - ${nm} - ${dt}.${ext}`;
 }
-
-async function downloadPDF(){
-  const btn=$("#btnPdf");
-  btn.disabled=true; const old=btn.textContent; btn.textContent="Generating…";
-  try{
-    $("#pdfPage").innerHTML=previewHTML();
-    await new Promise(r=>setTimeout(r,80));
-    const node=$("#pdfPage");
-    const canvas=await html2canvas(node,{
-      scale:2.5, backgroundColor:"#ffffff", useCORS:true,
-      windowWidth:794, width:794, height:node.offsetHeight
-    });
-    const img=canvas.toDataURL("image/jpeg",0.96);
-    const {jsPDF}=window.jspdf;
-    const pdf=new jsPDF("p","mm","a4");
-    const PW=210, PH=297;
-    let iw=PW, ih=canvas.height*PW/canvas.width;
-
-    if(ih<=PH){
-      pdf.addImage(img,"JPEG",0,0,iw,ih,undefined,"FAST");
-    }else if(ih<=PH*1.22){
-      /* almost one page -> scale down to fit a single A4 */
-      ih=PH; iw=canvas.width*PH/canvas.height;
-      pdf.addImage(img,"JPEG",(PW-iw)/2,0,iw,ih,undefined,"FAST");
-    }else{
-      /* multi-page */
-      let left=ih, pos=0;
-      pdf.addImage(img,"JPEG",0,0,iw,ih,undefined,"FAST");
-      left-=PH;
-      while(left>0){ pos-=PH; pdf.addPage();
-        pdf.addImage(img,"JPEG",0,pos,iw,ih,undefined,"FAST"); left-=PH; }
-    }
-    pdf.save(rxFilename("pdf"));
-    toast("PDF downloaded");
-  }catch(err){
-    console.error(err);
-    toast("PDF failed – try the Print button instead");
-  }finally{
-    btn.disabled=false; btn.textContent=old;
+async function buildPDFDoc(){
+  $("#pdfPage").innerHTML=previewHTML();
+  await new Promise(r=>setTimeout(r,140));
+  const node=$("#pdfPage");
+  const canvas=await html2canvas(node,{
+    scale:2.5, backgroundColor:"#ffffff", useCORS:true,
+    windowWidth:794, width:794, height:node.offsetHeight });
+  const img=canvas.toDataURL("image/jpeg",0.96);
+  const {jsPDF}=window.jspdf;
+  const pdf=new jsPDF("p","mm","a4");
+  const PW=210, PH=297;
+  let iw=PW, ih=canvas.height*PW/canvas.width;
+  if(ih<=PH){
+    pdf.addImage(img,"JPEG",0,0,iw,ih,undefined,"FAST");
+  }else if(ih<=PH*1.22){
+    ih=PH; iw=canvas.width*PH/canvas.height;
+    pdf.addImage(img,"JPEG",(PW-iw)/2,0,iw,ih,undefined,"FAST");
+  }else{
+    let left=ih,pos=0;
+    pdf.addImage(img,"JPEG",0,0,iw,ih,undefined,"FAST"); left-=PH;
+    while(left>0){ pos-=PH; pdf.addPage();
+      pdf.addImage(img,"JPEG",0,pos,iw,ih,undefined,"FAST"); left-=PH; }
   }
+  return pdf;
 }
-
+async function downloadPDF(){
+  const btn=$("#btnPdf"); btn.disabled=true; const old=btn.textContent;
+  btn.textContent="Generating…";
+  try{
+    const pdf=await buildPDFDoc();
+    pdf.save(rxFilename(RX,"pdf"));
+    toast("PDF downloaded");
+  }catch(err){ console.error(err); toast("PDF failed – try the Print button instead"); }
+  finally{ btn.disabled=false; btn.textContent=old; }
+}
 function printRx(){
   $("#pdfPage").innerHTML=previewHTML();
-  setTimeout(()=>window.print(),60);
+  setTimeout(()=>window.print(),80);
 }
 
 /* =========================================================
-   SAVE  /  OPEN  /  NEW
+   LOCAL SAVE  /  OPEN  /  NEW
    ========================================================= */
-function saveRx(){
-  RX.updatedAt=Date.now();
-  if(RX.id){
-    const i=SAVED.findIndex(r=>r.id===RX.id);
-    if(i>=0) SAVED[i]=JSON.parse(JSON.stringify(RX));
-    else SAVED.unshift(JSON.parse(JSON.stringify(RX)));
-  }else{
-    RX.id=uid(); RX.createdAt=Date.now();
-    SAVED.unshift(JSON.parse(JSON.stringify(RX)));
-  }
+function upsertLocal(rx){
+  const i=SAVED.findIndex(r=>r.id===rx.id);
+  if(i>=0) SAVED[i]=clone(rx); else SAVED.unshift(clone(rx));
   save(K_RX,SAVED);
-  save(K_DRAFT,RX);
-  toast("Prescription saved");
 }
-
-function newRx(){
-  if(!confirm("Start a new blank prescription? Unsaved changes to the current one will be cleared."))
+async function doSave(){
+  if(!RX.id){ RX.id=uid(); RX.createdAt=Date.now(); }
+  RX.updatedAt=Date.now();
+  upsertLocal(RX);
+  save(K_DRAFT,RX);
+  if(GA.connected){
+    const btn=$("#btnSave"); btn.disabled=true; const old=btn.textContent;
+    btn.textContent="Saving…";
+    try{ await saveToDrive(RX); toast("Saved to Google Drive ✓"); }
+    catch(e){ console.error(e); toast("Saved on device. Drive sync failed: "+e.message); }
+    finally{ btn.disabled=false; btn.textContent=old; }
+  }else{
+    toast("Saved on this device");
+  }
+}
+function newRx(prefillPatient){
+  if(!prefillPatient && !confirm(
+    "Start a new blank prescription? Unsaved changes to the current one will be cleared."))
     return;
   RX=blankRx();
+  if(prefillPatient){
+    RX.patient.name=prefillPatient.name||"";
+    RX.patient.age=prefillPatient.age||"";
+    RX.patient.address=prefillPatient.address||"";
+  }
   save(K_DRAFT,RX);
-  buildForm();
-  refreshPreview();
-  toast("New prescription");
+  buildForm(); refreshPreview();
+  closeModal();
+  toast(prefillPatient?("New prescription for "+(prefillPatient.name||"patient")):"New prescription");
 }
-
 function openRx(id){
   const r=SAVED.find(x=>x.id===id);
   if(!r) return;
-  RX=JSON.parse(JSON.stringify(r));
+  RX=clone(r);
+  if(RX.signed===undefined) RX.signed=true;
   save(K_DRAFT,RX);
-  buildForm();
-  refreshPreview();
-  closeModal();
+  buildForm(); refreshPreview(); closeModal();
   toast("Opened");
 }
-
 function duplicateRx(id){
   const r=SAVED.find(x=>x.id===id);
   if(!r) return;
-  RX=JSON.parse(JSON.stringify(r));
-  RX.id=null; RX.createdAt=Date.now(); RX.updatedAt=Date.now();
+  RX=clone(r);
+  RX.id=null; RX.driveFileId=null; RX.pdfLink="";
+  RX.createdAt=Date.now(); RX.updatedAt=Date.now();
   RX.patient.date=todayISO();
   save(K_DRAFT,RX);
-  buildForm();
-  refreshPreview();
-  closeModal();
+  buildForm(); refreshPreview(); closeModal();
   toast("Duplicated as a new prescription");
 }
-
-function deleteRx(id){
-  if(!confirm("Delete this saved prescription? This cannot be undone.")) return;
+async function deleteRx(id){
+  if(!confirm("Delete this saved prescription?")) return;
+  const rec=SAVED.find(x=>x.id===id);
   SAVED=SAVED.filter(x=>x.id!==id);
   save(K_RX,SAVED);
-  renderSavedModal($("#savedSearch")?$("#savedSearch").value:"");
+  if(GA.connected && rec){
+    try{ await sheetDeleteRow(id); }catch(e){ console.error(e); }
+  }
+  renderDbList($("#dbSearch")?$("#dbSearch").value:"");
   toast("Deleted");
+}
+
+/* =========================================================
+   GOOGLE DRIVE  +  SHEETS
+   ========================================================= */
+let GA = { token:null, exp:0, tokenClient:null, connected:false };
+
+function gisReady(){ return !!(window.google&&google.accounts&&google.accounts.oauth2); }
+function whenGisReady(cb){
+  if(gisReady()){ cb(); return; }
+  let n=0; const t=setInterval(()=>{ if(gisReady()||++n>40){ clearInterval(t); if(gisReady())cb(); } },150);
+}
+function requestToken(mode){
+  return new Promise((resolve,reject)=>{
+    if(!SETTINGS.googleClientId){
+      reject(new Error("Add your Google Client ID in Settings first.")); return; }
+    if(!gisReady()){
+      reject(new Error("Google sign-in is still loading – try again in a moment.")); return; }
+    if(!GA.tokenClient){
+      GA.tokenClient=google.accounts.oauth2.initTokenClient({
+        client_id:SETTINGS.googleClientId, scope:SCOPES,
+        callback:()=>{}, error_callback:()=>{} });
+    }
+    GA.tokenClient.callback=resp=>{
+      if(resp&&resp.access_token){
+        GA.token=resp.access_token;
+        GA.exp=Date.now()+((resp.expires_in||3600)*1000);
+        resolve(GA.token);
+      }else reject(new Error("Google sign-in was cancelled."));
+    };
+    GA.tokenClient.error_callback=err=>
+      reject(new Error("Google sign-in failed ("+((err&&err.type)||"unknown")+")."));
+    GA.tokenClient.requestAccessToken({prompt:mode});
+  });
+}
+function ensureToken(){
+  if(GA.token&&Date.now()<GA.exp-60000) return Promise.resolve(GA.token);
+  return requestToken("");
+}
+async function api(url,opts){
+  opts=opts||{};
+  let token=await ensureToken();
+  const send=t=>{
+    const h=Object.assign({},opts.headers,{Authorization:"Bearer "+t});
+    return fetch(url,Object.assign({},opts,{headers:h}));
+  };
+  let res=await send(token);
+  if(res.status===401){
+    GA.token=null; GA.exp=0;
+    res=await send(await ensureToken());
+  }
+  if(!res.ok){
+    let msg=res.status+"";
+    try{ const j=await res.json(); msg=(j.error&&j.error.message)||msg; }catch(e){}
+    throw new Error("Google API "+msg);
+  }
+  return res;
+}
+const qEsc=s=>String(s).replace(/\\/g,"\\\\").replace(/'/g,"\\'");
+
+async function driveFind(query){
+  const res=await api("https://www.googleapis.com/drive/v3/files?q="+
+    encodeURIComponent(query)+"&fields=files(id,name)&spaces=drive&pageSize=20");
+  return (await res.json()).files||[];
+}
+async function driveCreate(meta){
+  const res=await api("https://www.googleapis.com/drive/v3/files?fields=id,webViewLink",
+    {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(meta)});
+  return await res.json();
+}
+async function setupDrive(){
+  if(DRIVE.rootId&&DRIVE.sheetId) return;
+  let f=await driveFind("mimeType='application/vnd.google-apps.folder' and name='"+
+    qEsc(ROOT_FOLDER)+"' and trashed=false");
+  const root=f[0]||await driveCreate(
+    {name:ROOT_FOLDER,mimeType:"application/vnd.google-apps.folder"});
+  DRIVE.rootId=root.id;
+  let s=await driveFind("mimeType='application/vnd.google-apps.spreadsheet' and '"+
+    root.id+"' in parents and trashed=false");
+  let sheet=s[0];
+  if(!sheet){
+    sheet=await driveCreate({name:SHEET_NAME,
+      mimeType:"application/vnd.google-apps.spreadsheet",parents:[root.id]});
+    await sheetWriteHeader(sheet.id);
+  }
+  DRIVE.sheetId=sheet.id;
+  DRIVE.patientFolders=DRIVE.patientFolders||{};
+  save(K_DRIVE,DRIVE);
+}
+async function sheetWriteHeader(id){
+  await api("https://sheets.googleapis.com/v4/spreadsheets/"+id+
+    "/values/A1?valueInputOption=RAW",
+    {method:"PUT",headers:{"Content-Type":"application/json"},
+     body:JSON.stringify({values:[SHEET_HEADERS]})});
+  try{
+    await api("https://sheets.googleapis.com/v4/spreadsheets/"+id+":batchUpdate",
+      {method:"POST",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({requests:[
+        {repeatCell:{range:{sheetId:0,startRowIndex:0,endRowIndex:1},
+          cell:{userEnteredFormat:{textFormat:{bold:true},
+            backgroundColor:{red:.88,green:.95,blue:.96}}},
+          fields:"userEnteredFormat(textFormat,backgroundColor)"}},
+        {updateSheetProperties:{properties:{sheetId:0,
+          gridProperties:{frozenRowCount:1}},fields:"gridProperties.frozenRowCount"}}
+       ]})});
+  }catch(e){ /* formatting is cosmetic */ }
+}
+async function drivePatientFolder(name){
+  const key=(name||"Unfiled").trim()||"Unfiled";
+  if(DRIVE.patientFolders[key]) return DRIVE.patientFolders[key];
+  let f=await driveFind("mimeType='application/vnd.google-apps.folder' and name='"+
+    qEsc(key)+"' and '"+DRIVE.rootId+"' in parents and trashed=false");
+  const folder=f[0]||await driveCreate({name:key,
+    mimeType:"application/vnd.google-apps.folder",parents:[DRIVE.rootId]});
+  DRIVE.patientFolders[key]=folder.id;
+  save(K_DRIVE,DRIVE);
+  return folder.id;
+}
+async function driveUploadPDF(folderId,name,blob,existingId){
+  if(existingId){
+    try{
+      const res=await api("https://www.googleapis.com/upload/drive/v3/files/"+
+        existingId+"?uploadType=media&fields=id,webViewLink",
+        {method:"PATCH",headers:{"Content-Type":"application/pdf"},body:blob});
+      return await res.json();
+    }catch(e){ /* file may have been removed - fall through to create */ }
+  }
+  const boundary="rxpad"+Date.now();
+  const body=new Blob([
+    "--"+boundary+"\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n",
+    JSON.stringify({name:name,parents:[folderId]}),
+    "\r\n--"+boundary+"\r\nContent-Type: application/pdf\r\n\r\n",
+    blob, "\r\n--"+boundary+"--"]);
+  const res=await api("https://www.googleapis.com/upload/drive/v3/files"+
+    "?uploadType=multipart&fields=id,webViewLink",
+    {method:"POST",headers:{"Content-Type":"multipart/related; boundary="+boundary},body:body});
+  return await res.json();
+}
+function sheetRow(rx){
+  const pdf=rx.pdfLink?'=HYPERLINK("'+rx.pdfLink+'","Open PDF")':"";
+  return [
+    fmtDate(rx.patient.date), rx.patient.name||"", rx.patient.age||"",
+    (rx.diagnosis||"").replace(/\s+/g," ").trim(),
+    (rx.followUp||"").replace(/\s+/g," ").trim(),
+    pdf, new Date(rx.updatedAt||Date.now()).toLocaleString(),
+    rx.id, JSON.stringify(rx)];
+}
+async function sheetRowIndex(id){
+  const res=await api("https://sheets.googleapis.com/v4/spreadsheets/"+
+    DRIVE.sheetId+"/values/H2:H100000");
+  const ids=((await res.json()).values||[]).map(r=>r[0]);
+  const i=ids.indexOf(id);
+  return i<0?-1:i+2;
+}
+async function sheetUpsert(rx){
+  const n=await sheetRowIndex(rx.id);
+  const row=[sheetRow(rx)];
+  if(n>0){
+    await api("https://sheets.googleapis.com/v4/spreadsheets/"+DRIVE.sheetId+
+      "/values/A"+n+":I"+n+"?valueInputOption=USER_ENTERED",
+      {method:"PUT",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({values:row})});
+  }else{
+    await api("https://sheets.googleapis.com/v4/spreadsheets/"+DRIVE.sheetId+
+      "/values/A1:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS",
+      {method:"POST",headers:{"Content-Type":"application/json"},
+       body:JSON.stringify({values:row})});
+  }
+}
+async function sheetDeleteRow(id){
+  const n=await sheetRowIndex(id);
+  if(n<0) return;
+  await api("https://sheets.googleapis.com/v4/spreadsheets/"+DRIVE.sheetId+":batchUpdate",
+    {method:"POST",headers:{"Content-Type":"application/json"},
+     body:JSON.stringify({requests:[{deleteDimension:{range:{
+       sheetId:0,dimension:"ROWS",startIndex:n-1,endIndex:n}}}]})});
+}
+async function saveToDrive(rx){
+  await setupDrive();
+  const folder=await drivePatientFolder(rx.patient.name);
+  const pdf=await buildPDFDoc();
+  const blob=pdf.output("blob");
+  const up=await driveUploadPDF(folder,rxFilename(rx,"pdf"),blob,rx.driveFileId);
+  rx.driveFileId=up.id;
+  rx.pdfLink=up.webViewLink||rx.pdfLink;
+  await sheetUpsert(rx);
+  upsertLocal(rx);
+  if(rx===RX) save(K_DRAFT,RX);
+}
+async function syncFromDrive(){
+  await setupDrive();
+  const res=await api("https://sheets.googleapis.com/v4/spreadsheets/"+
+    DRIVE.sheetId+"/values/A2:I100000");
+  const rows=(await res.json()).values||[];
+  const recs=[];
+  rows.forEach(r=>{
+    if(!r[8]) return;
+    try{ const rx=JSON.parse(r[8]); if(rx&&rx.id) recs.push(rx); }catch(e){}
+  });
+  const driveIds=new Set(recs.map(r=>r.id));
+  const localOnly=SAVED.filter(r=>!driveIds.has(r.id));
+  SAVED=recs.concat(localOnly);
+  save(K_RX,SAVED);
+}
+async function connectGoogle(){
+  try{
+    await ensureToken();
+    await setupDrive();
+    GA.connected=true;
+    updateGoogleUI();
+    toast("Connecting – loading your prescriptions…");
+    await syncFromDrive();
+    updateGoogleUI();
+    renderDbList($("#dbSearch")?$("#dbSearch").value:"");
+    toast("Connected to Google Drive ✓");
+  }catch(e){ console.error(e); toast(e.message||"Could not connect to Google"); }
+}
+function signOutGoogle(){
+  if(GA.token&&gisReady()){ try{google.accounts.oauth2.revoke(GA.token);}catch(e){} }
+  GA.token=null; GA.exp=0; GA.connected=false;
+  updateGoogleUI();
+  toast("Signed out of Google");
+}
+function updateGoogleUI(){
+  $("#gdot").classList.toggle("on",GA.connected);
+  if($("#gPanel")) renderGPanel();
+}
+function autoConnect(){
+  if(!SETTINGS.googleClientId||!DRIVE.sheetId) return;
+  whenGisReady(()=>{
+    requestToken("none").then(async()=>{
+      try{ GA.connected=true; await syncFromDrive(); updateGoogleUI(); }
+      catch(e){ console.error(e); }
+    }).catch(()=>{ /* needs an explicit sign-in click */ });
+  });
 }
 
 /* =========================================================
@@ -902,44 +1152,105 @@ function closeModal(){ $("#overlay").classList.remove("open"); }
 $("#modalClose").onclick=closeModal;
 $("#overlay").addEventListener("click",e=>{ if(e.target===$("#overlay")) closeModal(); });
 
-/* ---- Saved prescriptions ---- */
-function showSaved(){
-  openModal("Saved Prescriptions",
-    `<input type="text" id="savedSearch" placeholder="Search by patient name or diagnosis"
-       style="margin-bottom:12px">
-     <div id="savedList"></div>`,
+/* ---- Database ---- */
+function showDatabase(){
+  openModal("Prescription Database",
+    `<div id="gPanel"></div>
+     <input type="text" id="dbSearch" placeholder="Search patient or diagnosis"
+       style="margin:6px 0 4px">
+     <div id="dbList"></div>`,
     `<button class="tbtn" id="mDone">Done</button>`);
   $("#mDone").onclick=closeModal;
-  $("#savedSearch").addEventListener("input",e=>renderSavedModal(e.target.value));
-  renderSavedModal("");
+  $("#dbSearch").addEventListener("input",e=>renderDbList(e.target.value));
+  renderGPanel();
+  renderDbList("");
 }
-function renderSavedModal(q){
+function renderGPanel(){
+  const p=$("#gPanel"); if(!p) return;
+  if(!SETTINGS.googleClientId){
+    p.innerHTML=`<div class="gstatus"><span class="d"></span>
+      <span>Google Drive not set up</span></div>
+      <div class="hint">Add your Google Client ID in
+      <a data-go-settings="1">Settings</a> to sync prescriptions to Drive and a Google Sheet.</div>`;
+    p.querySelector("[data-go-settings]").onclick=()=>{closeModal();showSettings();};
+    return;
+  }
+  if(!GA.connected){
+    p.innerHTML=`<div class="gstatus"><span class="d"></span>
+      <span>Not connected to Google Drive</span></div>
+      <button class="mini solid" id="gConnect">Connect Google Drive</button>`;
+    p.querySelector("#gConnect").onclick=connectGoogle;
+    return;
+  }
+  const folderLink=DRIVE.rootId?"https://drive.google.com/drive/folders/"+DRIVE.rootId:"";
+  const sheetLink=DRIVE.sheetId?"https://docs.google.com/spreadsheets/d/"+DRIVE.sheetId:"";
+  p.innerHTML=`<div class="gstatus ok"><span class="d"></span>
+      <span>Connected to Google Drive</span></div>
+    <div class="glinks">
+      <button class="mini" id="gRefresh">Refresh from Drive</button>
+      ${sheetLink?`<a class="mini accent" href="${sheetLink}" target="_blank" rel="noopener">Open master Sheet</a>`:""}
+      ${folderLink?`<a class="mini accent" href="${folderLink}" target="_blank" rel="noopener">Open Drive folder</a>`:""}
+      <button class="mini danger" id="gOut">Sign out</button>
+    </div>`;
+  p.querySelector("#gRefresh").onclick=async()=>{
+    toast("Refreshing…");
+    try{ await syncFromDrive(); renderDbList($("#dbSearch").value); toast("Up to date ✓"); }
+    catch(e){ toast(e.message); }
+  };
+  p.querySelector("#gOut").onclick=()=>{ signOutGoogle(); renderGPanel(); };
+}
+function renderDbList(q){
   q=(q||"").toLowerCase();
-  const list=$("#savedList");
-  if(!list) return;
-  let rows=SAVED.slice().sort((a,b)=>b.updatedAt-a.updatedAt);
+  const list=$("#dbList"); if(!list) return;
+  let rows=SAVED.slice();
   if(q) rows=rows.filter(r=>
     (r.patient.name||"").toLowerCase().includes(q) ||
     (r.diagnosis||"").toLowerCase().includes(q));
   if(!rows.length){
-    list.innerHTML=`<div class="hint" style="text-align:center;padding:18px">
-      ${SAVED.length?"No matches.":"No saved prescriptions yet. Fill the form and press Save."}</div>`;
+    list.innerHTML=`<div class="hint" style="text-align:center;padding:20px">
+      ${SAVED.length?"No matches.":"No prescriptions saved yet. Fill the form and press Save."}</div>`;
     return;
   }
-  list.innerHTML=rows.map(r=>`
-    <div class="saved-item">
-      <div class="nm">${esc(r.patient.name||"Untitled patient")}</div>
-      <div class="meta">${esc(fmtDate(r.patient.date)||"—")}
-        ${r.diagnosis?" &middot; "+esc(r.diagnosis.slice(0,70)):""}</div>
-      <div class="acts">
-        <button class="mini accent" data-open="${r.id}">Open</button>
-        <button class="mini" data-dup="${r.id}">Duplicate</button>
-        <button class="mini danger" data-del="${r.id}">Delete</button>
-      </div>
-    </div>`).join("");
+  /* group by patient */
+  const groups={};
+  rows.forEach(r=>{
+    const k=(r.patient.name||"Unnamed patient").trim()||"Unnamed patient";
+    (groups[k]=groups[k]||[]).push(r);
+  });
+  const names=Object.keys(groups).sort((a,b)=>a.localeCompare(b));
+  let html="";
+  names.forEach(name=>{
+    const recs=groups[name].sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
+    const latest=recs[0];
+    html+=`<div class="pg-head">
+      <span class="pn">${esc(name)}</span>
+      <span class="pc">${recs.length} prescription${recs.length>1?"s":""}</span>
+      <span class="sp"></span>
+      <button class="mini accent" data-newfor="${esc(name)}">+ New for this patient</button>
+    </div>`;
+    recs.forEach(r=>{
+      html+=`<div class="saved-item">
+        <div class="meta"><b style="color:#0f172a">${esc(fmtDate(r.patient.date)||"—")}</b>
+          ${r.diagnosis?" &middot; "+esc(r.diagnosis.slice(0,80)):""}</div>
+        <div class="acts">
+          <button class="mini accent" data-open="${r.id}">Open</button>
+          <button class="mini" data-dup="${r.id}">Duplicate</button>
+          ${r.pdfLink?`<a class="mini" href="${esc(r.pdfLink)}" target="_blank" rel="noopener">PDF in Drive</a>`:""}
+          <button class="mini danger" data-del="${r.id}">Delete</button>
+        </div>
+      </div>`;
+    });
+    void latest;
+  });
+  list.innerHTML=html;
   list.querySelectorAll("[data-open]").forEach(b=>b.onclick=()=>openRx(b.dataset.open));
   list.querySelectorAll("[data-dup]").forEach(b=>b.onclick=()=>duplicateRx(b.dataset.dup));
   list.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>deleteRx(b.dataset.del));
+  list.querySelectorAll("[data-newfor]").forEach(b=>b.onclick=()=>{
+    const recs=groups[b.dataset.newfor];
+    const latest=recs.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0))[0];
+    newRx({name:latest.patient.name,age:latest.patient.age,address:latest.patient.address});
+  });
 }
 
 /* ---- Settings ---- */
@@ -951,8 +1262,28 @@ function showSettings(){
     ? customList.map(c=>`<span class="chip-del">${esc(c.it)}
         <button data-rmcustom="${c.sec}" data-i="${esc(c.it)}">&times;</button></span>`).join("")
     : `<span class="hint">None yet. Use “+ Add item” on any list in the form.</span>`;
+  const sigHTML=s.signature
+    ? `<div class="sig-box"><img src="${s.signature}" alt="signature"></div>`
+    : `<div class="sig-box"><div class="none">No e-signature uploaded yet</div></div>`;
 
   openModal("Settings",`
+    <div class="set-section">E-signature</div>
+    <div class="set-row">
+      <div class="sub">Upload a photo or scan of your signature. The background is removed
+        automatically and it is embedded on every prescription where the signature box is ticked.</div>
+      ${sigHTML}
+      <button class="mini solid" id="setSigUpload">Upload signature image</button>
+      ${s.signature?`<button class="mini danger" id="setSigRemove">Remove</button>`:""}
+    </div>
+
+    <div class="set-section">Google Drive sync</div>
+    <div class="set-row"><label>Google OAuth Client ID</label>
+      <div class="sub">One-time setup – see the deployment guide. Needed to save
+        prescriptions to your Drive and master Google Sheet.</div>
+      <input type="text" id="setClient" value="${esc(s.googleClientId)}"
+        placeholder="xxxxxxxx.apps.googleusercontent.com"></div>
+
+    <div class="set-section">Letterhead</div>
     <div class="set-row"><label>Doctor name (letterhead)</label>
       <input type="text" id="setName" value="${esc(s.headerName)}"></div>
     <div class="set-row"><label>Specialty line</label>
@@ -977,11 +1308,14 @@ function showSettings(){
       <div class="set-row"><label>PTR No.</label>
         <input type="text" id="setPtr" value="${esc(s.ptr)}"></div>
     </div>
-    <div class="set-row"><label>Custom items you've added</label>
-      <div>${customHTML}</div></div>
-    <div class="set-row"><label>Backup &amp; restore</label>
-      <div class="sub">Your data lives only in this browser. Export a backup file you can
-        keep or load on another device.</div>
+
+    <div class="set-section">Custom items</div>
+    <div class="set-row">${customHTML}</div>
+
+    <div class="set-section">Backup &amp; restore</div>
+    <div class="set-row">
+      <div class="sub">Your on-device data lives only in this browser. Export a backup file
+        you can keep or load on another device.</div>
       <button class="mini" id="setExport">Export backup</button>
       <button class="mini" id="setImport">Import backup</button>
       <button class="mini danger" id="setReset">Reset letterhead to defaults</button>
@@ -995,11 +1329,18 @@ function showSettings(){
   $("#setSave").onclick=saveSettings;
   $("#setExport").onclick=exportData;
   $("#setImport").onclick=()=>$("#importFile").click();
+  $("#setSigUpload").onclick=()=>$("#sigFile").click();
+  if($("#setSigRemove")) $("#setSigRemove").onclick=()=>{
+    SETTINGS.signature=""; save(K_SET,SETTINGS); refreshPreview(); showSettings();
+    toast("Signature removed");
+  };
   $("#setReset").onclick=()=>{
-    if(!confirm("Reset the letterhead, clinics and signature to the original defaults? "+
-      "Your saved prescriptions and custom items are kept.")) return;
-    const ci=SETTINGS.customItems;
-    SETTINGS=defaultSettings(); SETTINGS.customItems=ci;
+    if(!confirm("Reset the letterhead, clinics and signature name to the original defaults? "+
+      "Your saved prescriptions, e-signature image, custom items and Google settings are kept."))
+      return;
+    const keep={customItems:SETTINGS.customItems,signature:SETTINGS.signature,
+      googleClientId:SETTINGS.googleClientId};
+    SETTINGS=Object.assign(defaultSettings(),keep);
     save(K_SET,SETTINGS); showSettings(); refreshPreview(); toast("Letterhead reset");
   };
   $("#modalBody").querySelectorAll("[data-rmcustom]").forEach(b=>{
@@ -1010,7 +1351,6 @@ function showSettings(){
     };
   });
 }
-
 function saveSettings(){
   const v=id=>$("#"+id).value;
   SETTINGS.headerName=v("setName").trim();
@@ -1026,10 +1366,79 @@ function saveSettings(){
   SETTINGS.signatureName=v("setSign").trim();
   SETTINGS.prc=v("setPrc").trim();
   SETTINGS.ptr=v("setPtr").trim();
+  SETTINGS.googleClientId=v("setClient").trim();
   save(K_SET,SETTINGS);
   closeModal();
+  buildForm();
   refreshPreview();
   toast("Settings saved");
+}
+
+/* ---- Signature image processing (background removal) ---- */
+$("#sigFile").addEventListener("change",e=>{
+  const file=e.target.files[0]; e.target.value="";
+  if(!file) return;
+  toast("Processing signature…");
+  processSignature(file).then(dataUrl=>{
+    SETTINGS.signature=dataUrl;
+    save(K_SET,SETTINGS);
+    refreshPreview();
+    if($("#overlay").classList.contains("open")) showSettings();
+    toast("Signature saved ✓");
+  }).catch(err=>{ console.error(err); toast("Could not read that image"); });
+});
+function processSignature(file){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>{
+      try{
+        const c=document.createElement("canvas");
+        c.width=img.naturalWidth; c.height=img.naturalHeight;
+        const x=c.getContext("2d");
+        x.drawImage(img,0,0);
+        const d=x.getImageData(0,0,c.width,c.height), p=d.data;
+        const lum=i=>0.299*p[i]+0.587*p[i+1]+0.114*p[i+2];
+        const corner=(px,py)=>lum((py*c.width+px)*4);
+        const m=3;
+        const bg=(corner(m,m)+corner(c.width-1-m,m)+
+                  corner(m,c.height-1-m)+corner(c.width-1-m,c.height-1-m))/4;
+        const darkBg=bg<128;
+        let maxc=0;
+        for(let i=0;i<p.length;i+=4){
+          const diff=darkBg?lum(i)-bg:bg-lum(i);
+          if(diff>maxc) maxc=diff;
+        }
+        const full=Math.max(22,maxc*0.62);
+        const ink=[16,24,40];
+        let minX=c.width,minY=c.height,maxX=0,maxY=0;
+        for(let py=0;py<c.height;py++){
+          for(let px=0;px<c.width;px++){
+            const i=(py*c.width+px)*4;
+            const diff=darkBg?lum(i)-bg:bg-lum(i);
+            let a=Math.round(Math.min(1,Math.max(0,diff/full))*255);
+            p[i]=ink[0];p[i+1]=ink[1];p[i+2]=ink[2];p[i+3]=a;
+            if(a>45){
+              if(px<minX)minX=px; if(px>maxX)maxX=px;
+              if(py<minY)minY=py; if(py>maxY)maxY=py;
+            }
+          }
+        }
+        x.putImageData(d,0,0);
+        if(maxX<=minX||maxY<=minY){ resolve(c.toDataURL("image/png")); return; }
+        const pad=Math.round(Math.max(c.width,c.height)*0.025);
+        minX=Math.max(0,minX-pad); minY=Math.max(0,minY-pad);
+        maxX=Math.min(c.width-1,maxX+pad); maxY=Math.min(c.height-1,maxY+pad);
+        const cw=maxX-minX+1, ch=maxY-minY+1;
+        const scale=Math.min(1,820/cw);
+        const c2=document.createElement("canvas");
+        c2.width=Math.round(cw*scale); c2.height=Math.round(ch*scale);
+        c2.getContext("2d").drawImage(c,minX,minY,cw,ch,0,0,c2.width,c2.height);
+        resolve(c2.toDataURL("image/png"));
+      }catch(err){ reject(err); }
+    };
+    img.onerror=()=>reject(new Error("bad image"));
+    img.src=URL.createObjectURL(file);
+  });
 }
 
 /* =========================================================
@@ -1037,8 +1446,8 @@ function saveSettings(){
    ========================================================= */
 function exportData(){
   const blob=new Blob([JSON.stringify({
-    app:"RehabPrescriptionPad", version:1, exported:new Date().toISOString(),
-    settings:SETTINGS, prescriptions:SAVED
+    app:"RehabPrescriptionPad",version:2,exported:new Date().toISOString(),
+    settings:SETTINGS,prescriptions:SAVED
   },null,2)],{type:"application/json"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
@@ -1047,17 +1456,16 @@ function exportData(){
   setTimeout(()=>URL.revokeObjectURL(a.href),1000);
   toast("Backup exported");
 }
-
 $("#importFile").addEventListener("change",e=>{
-  const file=e.target.files[0];
+  const file=e.target.files[0]; e.target.value="";
   if(!file) return;
   const reader=new FileReader();
   reader.onload=()=>{
     try{
       const data=JSON.parse(reader.result);
       if(!data||!data.settings) throw new Error("bad file");
-      if(!confirm("Import this backup? It will replace your current settings and "+
-        "merge in its saved prescriptions.")) return;
+      if(!confirm("Import this backup? It replaces your current settings and "+
+        "merges in its saved prescriptions.")) return;
       SETTINGS=Object.assign(defaultSettings(),data.settings);
       if(!SETTINGS.customItems) SETTINGS.customItems={};
       const incoming=Array.isArray(data.prescriptions)?data.prescriptions:[];
@@ -1069,7 +1477,6 @@ $("#importFile").addEventListener("change",e=>{
     }catch(err){ toast("That file could not be read"); }
   };
   reader.readAsText(file);
-  e.target.value="";
 });
 
 /* =========================================================
@@ -1081,7 +1488,7 @@ function toast(msg){
   t.textContent=msg;
   t.classList.add("show");
   clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>t.classList.remove("show"),2400);
+  toastTimer=setTimeout(()=>t.classList.remove("show"),2600);
 }
 
 /* =========================================================
@@ -1099,10 +1506,11 @@ $("#tabForm").onclick=()=>setTab("form");
 $("#tabPreview").onclick=()=>setTab("preview");
 
 /* =========================================================
-   WIRE TOP BAR
+   TOP BAR
    ========================================================= */
-$("#btnNew").onclick=newRx;
-$("#btnSaved").onclick=showSaved;
+$("#btnNew").onclick=()=>newRx();
+$("#btnSave").onclick=doSave;
+$("#btnDatabase").onclick=showDatabase;
 $("#btnSettings").onclick=showSettings;
 $("#btnPrint").onclick=printRx;
 $("#btnPdf").onclick=downloadPDF;
@@ -1114,6 +1522,7 @@ buildForm();
 refreshPreview();
 setTimeout(fitPreview,150);
 window.addEventListener("load",fitPreview);
+autoConnect();
 </script>
 </body>
 </html>
